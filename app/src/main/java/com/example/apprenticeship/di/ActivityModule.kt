@@ -1,7 +1,5 @@
 package com.example.apprenticeship.di
 
-import com.example.apprenticeship.LocalCurrencyDataSourceImpl
-import com.example.apprenticeship.data.LocalCurrencyDataSource
 import com.example.apprenticeship.data.remote.RemoteCurrencyDataSource
 import com.example.apprenticeship.data.remote.RemoteCurrencyDataSourceImpl
 import com.example.apprenticeship.data.repository.CurrencyRepository

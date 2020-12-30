@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.apprenticeship.data.repository.CurrencyRepository
 import com.example.apprenticeship.domain.Currency
+import com.example.apprenticeship.domain.OrderBook
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
@@ -20,10 +21,10 @@ class CurrencyDetailViewModel @ViewModelInject constructor(private val repositor
 
     private fun fetchTickerAndOrderBookInfo() {
         _currencyEvents.value = CurrencyNavegation.ShowLoading
-        repository.getCurrencies()
+        repository.getCurrencyTicker("btc_mxn")
             .observeOn(AndroidSchedulers.mainThread())
             .flatMap {
-                return@flatMap repository.getCurrencies()
+                return@flatMap repository.getCurrencyOrderBook("btc_mxn")
             }
             .subscribeBy(
                 onSuccess = {
@@ -38,7 +39,7 @@ class CurrencyDetailViewModel @ViewModelInject constructor(private val repositor
 
 
     sealed class CurrencyNavegation{
-        data class ShowCurrencies(val currencies:List<Currency>): CurrencyNavegation()
+        data class ShowCurrencies(val currencies:OrderBook): CurrencyNavegation()
         data class ShowNotFound(val error: Throwable) : CurrencyNavegation()
         object ShowLoading: CurrencyNavegation()
     }

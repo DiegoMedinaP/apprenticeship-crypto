@@ -2,6 +2,8 @@ package com.example.apprenticeship.data.repository
 
 import com.example.apprenticeship.data.remote.RemoteCurrencyDataSource
 import com.example.apprenticeship.domain.Currency
+import com.example.apprenticeship.domain.OrderBook
+import com.example.apprenticeship.domain.Ticker
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -18,11 +20,12 @@ class CurrencyRepositoryImpl @Inject constructor(
         }
     }
 
-    //override fun getCurrencyTicker(): Single<Currency> {
-    //    TODO("Not yet implemented")
-    //}
-//
-    //override fun getCurrencyOrderBook(): Single<Currency> {
-    //    TODO("Not yet implemented")
-    //}
+    override fun getCurrencyTicker(book:String): Single<Ticker> {
+        return remoteDataSource.getCurrencyTicker(book)
+    }
+
+    override fun getCurrencyOrderBook(book: String): Single<OrderBook> {
+        return remoteDataSource.getCurrencyOrderBook(book)
+
+    }
 }

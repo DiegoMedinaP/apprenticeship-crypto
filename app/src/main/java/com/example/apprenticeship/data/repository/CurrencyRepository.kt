@@ -9,6 +9,6 @@ import io.reactivex.Single
 interface CurrencyRepository {
 
     fun getCurrencies(): Single<List<Currency>>
-    //fun getCurrencyTicker(): Single<Ticker>
-    //fun getCurrencyOrderBook():Single<OrderBook>
+    fun getCurrencyTicker(book: String): Single<Ticker>
+    fun getCurrencyOrderBook(book: String):Single<OrderBook>
 }

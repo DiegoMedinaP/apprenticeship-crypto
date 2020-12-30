@@ -1,6 +1,6 @@
 package com.example.apprenticeship.di
 
-import com.example.apprenticeship.CurrencyService
+import com.example.apprenticeship.data.remote.CurrencyService
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides

@@ -1,6 +1,16 @@
-package com.example.apprenticeship.data
+package com.example.apprenticeship.data.remote.entities
+
+import com.google.gson.annotations.SerializedName
+
 
 data class TickerEntity(
+        val success: Boolean,
+        @SerializedName("payload")
+        val info:TickerInfoEntity
+)
+
+
+data class TickerInfoEntity(
     val high:String?,
     val last:String?,
     val created_at:String?,

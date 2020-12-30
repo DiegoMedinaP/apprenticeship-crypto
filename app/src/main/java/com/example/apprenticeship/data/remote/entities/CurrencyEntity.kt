@@ -1,4 +1,4 @@
-package com.example.apprenticeship.data
+package com.example.apprenticeship.data.remote.entities
 
 import com.google.gson.annotations.SerializedName
 

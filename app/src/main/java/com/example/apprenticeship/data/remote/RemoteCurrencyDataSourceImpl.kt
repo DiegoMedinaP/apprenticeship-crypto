@@ -1,9 +1,9 @@
 package com.example.apprenticeship.data.remote
 
-import com.example.apprenticeship.CurrencyService
-import com.example.apprenticeship.data.PayloadEntity
-import com.example.apprenticeship.domain.Currency
-import com.example.apprenticeship.domain.toCurrencyListDomain
+import com.example.apprenticeship.data.remote.entities.OrderBookEntity
+import com.example.apprenticeship.data.remote.entities.PayloadEntity
+import com.example.apprenticeship.data.remote.entities.TickerEntity
+import com.example.apprenticeship.domain.*
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -13,6 +13,12 @@ class RemoteCurrencyDataSourceImpl @Inject constructor(private val currencyServi
             currencyService.getAvailableBooks()
                     .map(PayloadEntity::toCurrencyListDomain)
 
+    override fun getCurrencyTicker(book: String): Single<Ticker> =
+        currencyService.getCurrencyTicker(book).map(TickerEntity::toTickerDomain)
+
+
+    override fun getCurrencyOrderBook(book: String): Single<OrderBook> =
+            currencyService.getOrderBook(book).map(OrderBookEntity::toOrderBookDomain)
 
 
 }
