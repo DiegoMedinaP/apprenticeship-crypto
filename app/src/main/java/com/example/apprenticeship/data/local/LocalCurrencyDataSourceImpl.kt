@@ -1,10 +1,10 @@
 package com.example.apprenticeship.data.local
 
 import com.example.apprenticeship.data.remote.entities.OrderBookEntity
-import com.example.apprenticeship.data.remote.entities.PayloadEntity
 import com.example.apprenticeship.data.remote.entities.TickerEntity
 import com.example.apprenticeship.data.remote.CurrencyService
 import com.example.apprenticeship.data.remote.RemoteCurrencyDataSource
+import com.example.apprenticeship.data.remote.entities.CurrencyEntity
 import com.example.apprenticeship.domain.*
 import io.reactivex.Single
 import javax.inject.Inject
@@ -14,7 +14,7 @@ class LocalCurrencyDataSourceImpl @Inject constructor(private val currencyServic
 
     override fun getAvailableBooks(): Single<List<Currency>> =
             currencyService.getAvailableBooks()
-                    .map(PayloadEntity::toCurrencyListDomain)
+                    .map(CurrencyEntity::toCurrencyListDomain)
 
     override fun getCurrencyTicker(book:String): Single<Ticker> =
             currencyService.getCurrencyTicker(book).map(TickerEntity::toTickerDomain)
