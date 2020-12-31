@@ -1,12 +1,8 @@
 package com.example.apprenticeship.domain
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
-@Parcelize
 data class Currency(
         val book:String
-        ):Parcelable{
+        ){
     val comercialName :String get() {
         return when{
             book.contains("btc") -> "Bitcoin"

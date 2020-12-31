@@ -6,20 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.example.apprenticeship.R
 import com.example.apprenticeship.databinding.FragmentMainBinding
 import com.example.apprenticeship.domain.Currency
+import com.example.apprenticeship.ui.Navegation
 import com.example.apprenticeship.ui.adapters.CurrencyAdapter
-import com.example.apprenticeship.ui.viewmodel.MainViewModel
+import com.example.apprenticeship.ui.viewmodel.CurrencyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainFragment : Fragment() , CurrencyAdapter.OnCurrencyClickListener {
 
     private lateinit var binding: FragmentMainBinding
-    private val viewModel by viewModels<MainViewModel>()
+    private val viewModel by activityViewModels<CurrencyViewModel>()
     private val adapter by lazy {
         CurrencyAdapter(this)
     }
@@ -35,17 +36,17 @@ class MainFragment : Fragment() , CurrencyAdapter.OnCurrencyClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvCurrency.adapter = adapter
-        viewModel.currencyEvents.observe(viewLifecycleOwner, { event ->
+        viewModel.currencyListEvents.observe(viewLifecycleOwner, { event ->
             when (event) {
-                is MainViewModel.CurrencyNavegation.ShowCurrencies -> {
+                is Navegation.ShowResult<*> -> {
                     binding.pbLoading.visibility = View.GONE
-                    adapter.submitList(event.currencies)
+                    adapter.submitList(event.result as List<Currency>)
                 }
-                is MainViewModel.CurrencyNavegation.ShowNotFound -> {
+                is Navegation.ShowNotFound -> {
                     binding.pbLoading.visibility = View.GONE
                     Toast.makeText(context, "", Toast.LENGTH_SHORT).show()
                 }
-                MainViewModel.CurrencyNavegation.ShowLoading -> {
+                is Navegation.ShowLoading -> {
                     binding.pbLoading.visibility = View.VISIBLE
                 }
             }
@@ -54,8 +55,8 @@ class MainFragment : Fragment() , CurrencyAdapter.OnCurrencyClickListener {
     }
 
     override fun onCurrencyClick(currency: Currency, position: Int) {
-        val action = MainFragmentDirections.actionMainFragmentToCurrencyDetailFragment(currency)
-        findNavController().navigate(action)
+        viewModel.setSelectedCurrency(currency)
+        findNavController().navigate(R.id.action_mainFragment_to_currencyDetailFragment)
     }
 
 }
