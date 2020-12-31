@@ -18,6 +18,6 @@ data class Currency(
             else -> ""
         }
     }
-    val orderBook : OrderBook? = null
-    val ticker : Ticker? = null
+    var orderBook : OrderBook? = null
+    var ticker : Ticker? = null
 }

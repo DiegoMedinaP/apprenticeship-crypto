@@ -2,4 +2,14 @@
     <string name="app_name">Apprenticeship</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="fragment_currency_detail_currency_last_value">Último precio:</string>
+    <string name="fragment_currency_detail_currency_high">Precio más alto:</string>
+    <string name="fragment_currency_detail_currency_low">Precio más bajo:</string>
+    <string name="fragment_currency_detail_ask_title">Orden de venta</string>
+    <string name="fragment_currency_title_bid_title">Orden de compra</string>
+
+    <string name="item_order_book_price_title">precio:</string>
+    <string name="item_order_book_amount_title">cantidad:</string>
+
 </resources>

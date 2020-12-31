@@ -10,10 +10,9 @@ import com.bumptech.glide.Glide
 import com.example.apprenticeship.R
 import com.example.apprenticeship.databinding.ItemCurrencyBinding
 import com.example.apprenticeship.domain.Currency
-import com.squareup.picasso.Picasso
-import java.util.*
 
-class CurrencyAdapter(private val itemClickListener:OnCurrencyClickListener):ListAdapter<Currency,CurrencyAdapter.ViewHolder>(DiffCallback()) {
+class CurrencyAdapter(private val itemClickListener: OnCurrencyClickListener) :
+    ListAdapter<Currency, CurrencyAdapter.ViewHolder>(DiffCallback()) {
 
     class DiffCallback : DiffUtil.ItemCallback<Currency>() {
 
@@ -26,32 +25,31 @@ class CurrencyAdapter(private val itemClickListener:OnCurrencyClickListener):Lis
         }
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_currency, parent, false)
         )
-
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
 
-    interface OnCurrencyClickListener{
-        fun onCurrencyClick(currency:Currency,position: Int)
+    interface OnCurrencyClickListener {
+        fun onCurrencyClick(currency: Currency, position: Int)
     }
 
-    inner class ViewHolder(view: View):RecyclerView.ViewHolder(view){
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ItemCurrencyBinding.bind(view)
 
-        fun bind(currency:Currency){
+        fun bind(currency: Currency) {
             binding.tvCurrencyName.text = currency.comercialName
-            binding.cvCurrency.setOnClickListener{
-                itemClickListener.onCurrencyClick(currency,adapterPosition)
+            binding.cvCurrency.setOnClickListener {
+                itemClickListener.onCurrencyClick(currency, adapterPosition)
             }
 
-            Glide.with(binding.root.context).load(CurrencyImageAdapter.getImage(currency.book)).centerCrop()
+            Glide.with(binding.root.context).load(CurrencyImageAdapter.getImage(currency.book))
+                .centerCrop()
                 .into(binding.ivCurrency)
 
         }

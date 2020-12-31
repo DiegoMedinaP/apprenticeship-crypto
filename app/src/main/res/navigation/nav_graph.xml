@@ -19,9 +19,5 @@
         android:name="com.example.apprenticeship.ui.fragments.CurrencyDetailFragment"
         android:label="fragment_currency_detail"
         tools:layout="@layout/fragment_currency_detail" >
-
-        <argument
-            android:name="currency"
-            app:argType="com.example.apprenticeship.domain.Currency" />
     </fragment>
 </navigation>

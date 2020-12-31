@@ -28,17 +28,18 @@ fun TickerEntity.toTickerDomain()= Ticker(
 fun OrderBookEntity.toOrderBookDomain()= OrderBook(
     this.info.updated_at,
     this.info.sequence,
-    this.info.bids.toBidsDomain()
+    this.info.bids.toBidsAskDomain(),
+    this.info.asks.toBidsAskDomain()
 )
 
-fun BidEntity.toBidDomain()= Bid(
+fun BidAskEntity.toBidDomain()= BidAskModel(
     book,
     price,
     amount
 )
 
-fun ArrayList<BidEntity>.toBidsDomain():ArrayList<Bid>{
-    val bids = arrayListOf<Bid>()
+fun ArrayList<BidAskEntity>.toBidsAskDomain():ArrayList<BidAskModel>{
+    val bids = arrayListOf<BidAskModel>()
     for (bid in this){
         bid.toBidDomain().let { bids.add(it) }
     }

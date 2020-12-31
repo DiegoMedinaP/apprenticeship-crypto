@@ -3,11 +3,12 @@ package com.example.apprenticeship.domain
 data class OrderBook(
     val updated_at :String?,
     val sequence :String?,
-    val bids: ArrayList<Bid>
+    val bid: ArrayList<BidAskModel>,
+    val ask: ArrayList<BidAskModel>
 )
 
 
-data class Bid(
+data class BidAskModel(
     val book:String?,
     val price:String?,
     val amount:String?

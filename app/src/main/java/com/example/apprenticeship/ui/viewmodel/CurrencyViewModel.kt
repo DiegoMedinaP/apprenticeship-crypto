@@ -26,7 +26,6 @@ class CurrencyViewModel @ViewModelInject constructor(private val repository: Cur
         fetchCurrencyInfo()
     }
 
-
     private fun fetchCurrencyInfo(){
         _currencyListEvents.value = Navegation.ShowLoading
         repository.getCurrencies()
@@ -42,25 +41,29 @@ class CurrencyViewModel @ViewModelInject constructor(private val repository: Cur
         ).addTo(disposable)
     }
 
-    fun setSelectedCurrency(currency: Currency) {
-        _currency.value = currency
-    }
-
     fun fetchTickerAndOrderBookInfo() {
         _currencyEvents.value = Navegation.ShowLoading
-        repository.getCurrencyTicker("btc_mxn")
+        repository.getCurrencyTicker(currency.value!!.book)
             .observeOn(AndroidSchedulers.mainThread())
             .flatMap {
-                return@flatMap repository.getCurrencyOrderBook("btc_mxn")
+                _currency.value?.ticker = it
+                return@flatMap repository.getCurrencyOrderBook(currency.value!!.book)
             }
             .subscribeBy(
                 onSuccess = {
-                    _currencyEvents.postValue(Navegation.ShowResult(it))
+                    _currency.value?.orderBook = it
+                    _currencyEvents.postValue(Navegation.ShowResult(_currency.value))
                 },
                 onError = {
                     _currencyEvents.postValue(Navegation.ShowNotFound(it))
-
                 }
             ).addTo(disposable)
     }
+
+    fun setSelectedCurrency(currency: Currency) {
+        _currency.value = currency
+        fetchTickerAndOrderBookInfo()
+    }
+
+
 }
