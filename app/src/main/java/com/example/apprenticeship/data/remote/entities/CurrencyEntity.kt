@@ -2,11 +2,12 @@ package com.example.apprenticeship.data.remote.entities
 
 import com.google.gson.annotations.SerializedName
 
-data class PayloadEntity(
+data class CurrencyEntity(
+        val success: Boolean,
         @SerializedName("payload")
-        val currencies:ArrayList<CurrencyEntity>
+        val currencies:ArrayList<CurrencyInfoEntity>
 )
 
-data class CurrencyEntity (
+data class CurrencyInfoEntity (
     val book:String?
 )

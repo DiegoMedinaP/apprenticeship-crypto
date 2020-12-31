@@ -2,9 +2,9 @@ package com.example.apprenticeship.domain
 
 import com.example.apprenticeship.data.remote.entities.*
 
-fun CurrencyEntity.toCurrencyDomain()= book?.let { Currency(it) }
+fun CurrencyInfoEntity.toCurrencyDomain()= book?.let { Currency(it) }
 
-fun PayloadEntity.toCurrencyListDomain():List<Currency>{
+fun CurrencyEntity.toCurrencyListDomain():List<Currency>{
     val currencies = arrayListOf<Currency>()
     for (currency in this.currencies){
         currency.toCurrencyDomain()?.let { currencies.add(it) }
