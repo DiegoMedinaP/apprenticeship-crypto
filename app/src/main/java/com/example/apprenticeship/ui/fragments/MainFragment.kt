@@ -14,6 +14,7 @@ import com.example.apprenticeship.domain.Currency
 import com.example.apprenticeship.ui.Navegation
 import com.example.apprenticeship.ui.adapters.CurrencyAdapter
 import com.example.apprenticeship.ui.viewmodel.CurrencyViewModel
+import com.example.apprenticeship.utils.Network
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,6 +42,8 @@ class MainFragment : Fragment() , CurrencyAdapter.OnCurrencyClickListener {
                 is Navegation.ShowResult<*> -> {
                     binding.pbLoading.visibility = View.GONE
                     adapter.submitList(event.result as List<Currency>)
+                    Toast.makeText(requireContext(),"HAY INTERNET: ${Network.isNetworkAvailable(requireContext())}", Toast.LENGTH_SHORT)
+                        .show()
                 }
                 is Navegation.ShowNotFound -> {
                     binding.pbLoading.visibility = View.GONE

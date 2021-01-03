@@ -3,12 +3,14 @@ package com.example.apprenticeship.ui.viewmodel
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.apprenticeship.data.repository.CurrencyRepository
 import com.example.apprenticeship.domain.Currency
 import com.example.apprenticeship.ui.Navegation
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.coroutines.launch
 
 class CurrencyViewModel @ViewModelInject constructor(private val repository: CurrencyRepository) :BaseViewModel() {
 
@@ -33,6 +35,7 @@ class CurrencyViewModel @ViewModelInject constructor(private val repository: Cur
                 .subscribeBy(
                 onSuccess = {
                             _currencyListEvents.postValue(Navegation.ShowResult(it))
+                            saveCurrenciesInLocal(it)
                 },
                 onError = {
                     _currencyListEvents.postValue(Navegation.ShowNotFound(it))
@@ -41,7 +44,13 @@ class CurrencyViewModel @ViewModelInject constructor(private val repository: Cur
         ).addTo(disposable)
     }
 
-    fun fetchTickerAndOrderBookInfo() {
+    private fun saveCurrenciesInLocal(currencies: List<Currency>) {
+        viewModelScope.launch {
+            repository.saveCurrencies(currencies)
+        }
+    }
+
+    private fun fetchTickerAndOrderBookInfo() {
         _currencyEvents.value = Navegation.ShowLoading
         repository.getCurrencyTicker(currency.value!!.book)
             .observeOn(AndroidSchedulers.mainThread())

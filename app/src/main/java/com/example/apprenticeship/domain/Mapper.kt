@@ -1,5 +1,6 @@
 package com.example.apprenticeship.domain
 
+import com.example.apprenticeship.data.local.entities.CurrencyRoomEntity
 import com.example.apprenticeship.data.remote.entities.*
 
 fun CurrencyInfoEntity.toCurrencyDomain()= book?.let { Currency(it) }
@@ -45,3 +46,20 @@ fun ArrayList<BidAskEntity>.toBidsAskDomain():ArrayList<BidAskModel>{
     }
     return bids
 }
+
+
+fun List<CurrencyRoomEntity>.toCurrenciesDomain():ArrayList<Currency>{
+    val currencies = arrayListOf<Currency>()
+    for (currency in this){
+        currency.toCurrencyDomain().let { currencies.add(it) }
+    }
+    return currencies
+}
+
+fun CurrencyRoomEntity.toCurrencyDomain()= Currency(book)
+
+fun Currency.toCurrencyRoomEntity()= CurrencyRoomEntity(
+    book,
+    //orderBook,
+    //ticker,
+)

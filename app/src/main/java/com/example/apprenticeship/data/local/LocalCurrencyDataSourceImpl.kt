@@ -1,5 +1,6 @@
 package com.example.apprenticeship.data.local
 
+import com.example.apprenticeship.data.local.entities.CurrencyRoomEntity
 import com.example.apprenticeship.data.remote.entities.OrderBookEntity
 import com.example.apprenticeship.data.remote.entities.TickerEntity
 import com.example.apprenticeship.data.remote.CurrencyService
@@ -10,17 +11,20 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 
-class LocalCurrencyDataSourceImpl @Inject constructor(private val currencyService: CurrencyService): RemoteCurrencyDataSource {
+class LocalCurrencyDataSourceImpl @Inject constructor(private val currencyDao: CurrencyDao): LocalCurrencyDataSource {
 
-    override fun getAvailableBooks(): Single<List<Currency>> =
-            currencyService.getAvailableBooks()
-                    .map(CurrencyEntity::toCurrencyListDomain)
+    override fun getCurrencies(): Single<List<Currency>> {
+        return currencyDao.getAllCurrencies().map(List<CurrencyRoomEntity>::toCurrenciesDomain)
+    }
 
-    override fun getCurrencyTicker(book:String): Single<Ticker> =
-            currencyService.getCurrencyTicker(book).map(TickerEntity::toTickerDomain)
+    override suspend fun insertCurrenciesIntoRoom(currencies: List<Currency>) {
+        currencyDao.insertCurrencies(currencies.map {
+            it.toCurrencyRoomEntity()
+        })
+    }
 
-    override fun getCurrencyOrderBook(book: String): Single<OrderBook> {
-        return currencyService.getOrderBook(book).map(OrderBookEntity::toOrderBookDomain)
+    override suspend fun updateCurrency(currency: Currency) {
+        currencyDao.updateCurrency(currency.toCurrencyRoomEntity())
     }
 
 }
