@@ -21,7 +21,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CurrencyDetailFragment : Fragment() {
 
-    private lateinit var binding: FragmentCurrencyDetailBinding
+    private var _binding: FragmentCurrencyDetailBinding? = null
+    private val binding get() = _binding!!
     private val viewModel by activityViewModels<CurrencyViewModel>()
     private val askAdapter by lazy { AskBidAdapter() }
     private val bidAdapter by lazy { AskBidAdapter() }
@@ -30,7 +31,7 @@ class CurrencyDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentCurrencyDetailBinding.inflate(layoutInflater)
+        _binding = FragmentCurrencyDetailBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -62,6 +63,11 @@ class CurrencyDetailFragment : Fragment() {
             }
 
         })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setData() {
