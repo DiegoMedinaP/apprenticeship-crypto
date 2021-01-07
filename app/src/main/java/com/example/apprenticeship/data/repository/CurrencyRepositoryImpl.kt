@@ -5,27 +5,27 @@ import com.example.apprenticeship.data.remote.RemoteCurrencyDataSource
 import com.example.apprenticeship.domain.Currency
 import com.example.apprenticeship.domain.OrderBook
 import com.example.apprenticeship.domain.Ticker
-import com.example.apprenticeship.utils.Network
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 
 class CurrencyRepositoryImpl @Inject constructor(
-        private val remoteDataSource: RemoteCurrencyDataSource,
-        private val localDataSource: LocalCurrencyDataSource
-        ):CurrencyRepository {
+    private val remoteDataSource: RemoteCurrencyDataSource,
+    private val localDataSource: LocalCurrencyDataSource
+) : CurrencyRepository {
 
-    override fun getCurrencies(): Single<List<Currency>> {
-        return localDataSource.getCurrencies().subscribeOn(Schedulers.io())
-        /*return remoteDataSource.getAvailableBooks().map{ currencies ->
-            currencies.filter { currency->
-                currency.book.contains("mxn")
+    //val mediator = CurrencySourceMediator()
+
+    override fun getCurrencies(isNetworkAvailable: Boolean): Single<List<Currency>> {
+        return if (isNetworkAvailable) {
+            remoteDataSource.getCurrencies().map { currencies ->
+                currencies.filter { currency -> currency.book.contains("mxn") }
             }
-        }*/
+        } else
+            localDataSource.getCurrencies().subscribeOn(Schedulers.io())
     }
 
-    override fun getCurrencyTicker(book:String): Single<Ticker> {
+    override fun getCurrencyTicker(book: String): Single<Ticker> {
         return remoteDataSource.getCurrencyTicker(book)
     }
 
@@ -34,8 +34,8 @@ class CurrencyRepositoryImpl @Inject constructor(
 
     }
 
-    override fun saveCurrencyInfo(currency: Currency) {
-        TODO("Not yet implemented")
+    override suspend fun saveCurrencyInfo(currency: Currency) {
+        localDataSource.updateCurrency(currency)
     }
 
     override suspend fun saveCurrencies(currency: List<Currency>) {

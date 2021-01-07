@@ -14,23 +14,26 @@ import com.example.apprenticeship.domain.Currency
 import com.example.apprenticeship.ui.Navegation
 import com.example.apprenticeship.ui.adapters.CurrencyAdapter
 import com.example.apprenticeship.ui.viewmodel.CurrencyViewModel
-import com.example.apprenticeship.utils.Network
+import com.example.apprenticeship.utils.isNetworkAvailable
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainFragment : Fragment() , CurrencyAdapter.OnCurrencyClickListener {
+class MainFragment : Fragment()  {
 
-    private lateinit var binding: FragmentMainBinding
+    private var _binding: FragmentMainBinding? = null
+    private val binding get() = _binding!!
+
     private val viewModel by activityViewModels<CurrencyViewModel>()
     private val adapter by lazy {
-        CurrencyAdapter(this)
+        CurrencyAdapter { currency -> onCurrencyClick(currency)
+        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentMainBinding.inflate(layoutInflater)
+    ): View {
+        _binding = FragmentMainBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -42,12 +45,9 @@ class MainFragment : Fragment() , CurrencyAdapter.OnCurrencyClickListener {
                 is Navegation.ShowResult<*> -> {
                     binding.pbLoading.visibility = View.GONE
                     adapter.submitList(event.result as List<Currency>)
-                    Toast.makeText(requireContext(),"HAY INTERNET: ${Network.isNetworkAvailable(requireContext())}", Toast.LENGTH_SHORT)
-                        .show()
                 }
                 is Navegation.ShowNotFound -> {
                     binding.pbLoading.visibility = View.GONE
-                    Toast.makeText(context, "", Toast.LENGTH_SHORT).show()
                 }
                 is Navegation.ShowLoading -> {
                     binding.pbLoading.visibility = View.VISIBLE
@@ -57,9 +57,15 @@ class MainFragment : Fragment() , CurrencyAdapter.OnCurrencyClickListener {
         })
     }
 
-    override fun onCurrencyClick(currency: Currency, position: Int) {
-        viewModel.setSelectedCurrency(currency)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun onCurrencyClick(currency: Currency){
+        viewModel.setSelectedCurrency(currency, isNetworkAvailable())
         findNavController().navigate(R.id.action_mainFragment_to_currencyDetailFragment)
     }
+
 
 }

@@ -22,4 +22,10 @@ data class Currency(
         }
     var orderBook: OrderBook? = null
     var ticker: Ticker? = null
+
+    constructor(
+        book: String,
+        orderBook: OrderBook? = null,
+        ticker: Ticker? = null
+    ) : this(book)
 }

@@ -11,7 +11,7 @@ import com.example.apprenticeship.R
 import com.example.apprenticeship.databinding.ItemCurrencyBinding
 import com.example.apprenticeship.domain.Currency
 
-class CurrencyAdapter(private val itemClickListener: OnCurrencyClickListener) :
+class CurrencyAdapter(private val itemClickListener:(currency:Currency)->Unit) :
     ListAdapter<Currency, CurrencyAdapter.ViewHolder>(DiffCallback()) {
 
     class DiffCallback : DiffUtil.ItemCallback<Currency>() {
@@ -34,18 +34,13 @@ class CurrencyAdapter(private val itemClickListener: OnCurrencyClickListener) :
         holder.bind(getItem(position))
     }
 
-
-    interface OnCurrencyClickListener {
-        fun onCurrencyClick(currency: Currency, position: Int)
-    }
-
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ItemCurrencyBinding.bind(view)
 
         fun bind(currency: Currency) {
             binding.tvCurrencyName.text = currency.comercialName
             binding.cvCurrency.setOnClickListener {
-                itemClickListener.onCurrencyClick(currency, adapterPosition)
+                itemClickListener(currency)
             }
 
             Glide.with(binding.root.context).load(CurrencyImageAdapter.getImage(currency.book))

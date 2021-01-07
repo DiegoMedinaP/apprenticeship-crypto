@@ -1,5 +1,6 @@
 package com.example.apprenticeship.data.remote
 
+import com.example.apprenticeship.data.CurrencyDataSource
 import com.example.apprenticeship.data.remote.entities.CurrencyEntity
 import com.example.apprenticeship.data.remote.entities.OrderBookEntity
 import com.example.apprenticeship.data.remote.entities.TickerEntity
@@ -9,7 +10,7 @@ import javax.inject.Inject
 
 class RemoteCurrencyDataSourceImpl @Inject constructor(private val currencyService: CurrencyService): RemoteCurrencyDataSource {
 
-    override fun getAvailableBooks(): Single<List<Currency>> =
+    override fun getCurrencies(): Single<List<Currency>> =
             currencyService.getAvailableBooks()
                     .map(CurrencyEntity::toCurrencyListDomain)
 

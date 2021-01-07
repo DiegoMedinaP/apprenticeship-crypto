@@ -10,6 +10,6 @@ import com.example.apprenticeship.domain.Ticker
 data class CurrencyRoomEntity (
     @PrimaryKey
     val book:String,
-    //var orderBook: OrderBook?,
-    //var ticker: Ticker?
+    var orderBook: String?,
+    var ticker: String?
         )

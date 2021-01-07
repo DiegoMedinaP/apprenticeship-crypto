@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 
 class CurrencyViewModel @ViewModelInject constructor(private val repository: CurrencyRepository) :BaseViewModel() {
 
-
     private val _currencyListEvents = MutableLiveData<Navegation>()
     val currencyListEvents : LiveData<Navegation> get() = _currencyListEvents
 
@@ -24,13 +23,15 @@ class CurrencyViewModel @ViewModelInject constructor(private val repository: Cur
     private val _currency = MutableLiveData<Currency>()
     val currency : LiveData<Currency> get() = _currency
 
+    private var isNetworkAvailable:Boolean = false
+
     init {
         fetchCurrencyInfo()
     }
 
     private fun fetchCurrencyInfo(){
         _currencyListEvents.value = Navegation.ShowLoading
-        repository.getCurrencies()
+        repository.getCurrencies(isNetworkAvailable)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
                 onSuccess = {
@@ -50,6 +51,12 @@ class CurrencyViewModel @ViewModelInject constructor(private val repository: Cur
         }
     }
 
+    private fun saveCurrencyInLocal(){
+        viewModelScope.launch {
+            repository.saveCurrencyInfo(_currency.value!!)
+        }
+    }
+
     private fun fetchTickerAndOrderBookInfo() {
         _currencyEvents.value = Navegation.ShowLoading
         repository.getCurrencyTicker(currency.value!!.book)
@@ -62,6 +69,7 @@ class CurrencyViewModel @ViewModelInject constructor(private val repository: Cur
                 onSuccess = {
                     _currency.value?.orderBook = it
                     _currencyEvents.postValue(Navegation.ShowResult(_currency.value))
+                    saveCurrencyInLocal()
                 },
                 onError = {
                     _currencyEvents.postValue(Navegation.ShowNotFound(it))
@@ -69,10 +77,10 @@ class CurrencyViewModel @ViewModelInject constructor(private val repository: Cur
             ).addTo(disposable)
     }
 
-    fun setSelectedCurrency(currency: Currency) {
+    fun setSelectedCurrency(currency: Currency, isNetworkAvailable:Boolean) {
         _currency.value = currency
         fetchTickerAndOrderBookInfo()
+        this.isNetworkAvailable = isNetworkAvailable
     }
-
 
 }
