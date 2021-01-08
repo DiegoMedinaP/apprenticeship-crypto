@@ -6,7 +6,6 @@ import com.example.apprenticeship.domain.Currency
 import com.example.apprenticeship.domain.OrderBook
 import com.example.apprenticeship.domain.Ticker
 import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class CurrencyRepositoryImpl @Inject constructor(
@@ -16,13 +15,14 @@ class CurrencyRepositoryImpl @Inject constructor(
 
     //val mediator = CurrencySourceMediator()
 
-    override fun getCurrencies(isNetworkAvailable: Boolean): Single<List<Currency>> {
+    override suspend fun getCurrencies(isNetworkAvailable: Boolean): List<Currency> {
         return if (isNetworkAvailable) {
-            remoteDataSource.getCurrencies().map { currencies ->
-                currencies.filter { currency -> currency.book.contains("mxn") }
+            val currencies = remoteDataSource.getCurrencies().filter {
+                it.book.contains("mxn")
             }
-        } else
-            localDataSource.getCurrencies().subscribeOn(Schedulers.io())
+            saveCurrencies(currencies)
+            currencies
+        } else localDataSource.getCurrencies()
     }
 
     override fun getCurrencyTicker(book: String): Single<Ticker> {
@@ -41,4 +41,5 @@ class CurrencyRepositoryImpl @Inject constructor(
     override suspend fun saveCurrencies(currency: List<Currency>) {
         localDataSource.insertCurrenciesIntoRoom(currency)
     }
+
 }

@@ -10,7 +10,7 @@ import retrofit2.http.Query
 interface CurrencyService {
 
     @GET("available_books")
-    fun getAvailableBooks(): Single<CurrencyEntity>
+    suspend fun getAvailableBooks(): CurrencyEntity
 
     @GET("ticker")
     fun getCurrencyTicker(@Query("book")book:String): Single<TickerEntity>

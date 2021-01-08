@@ -10,7 +10,9 @@ import com.example.apprenticeship.ui.Navegation
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CurrencyViewModel @ViewModelInject constructor(private val repository: CurrencyRepository) :BaseViewModel() {
 
@@ -27,27 +29,19 @@ class CurrencyViewModel @ViewModelInject constructor(private val repository: Cur
 
     init {
         fetchCurrencyInfo()
+
     }
 
     private fun fetchCurrencyInfo(){
         _currencyListEvents.value = Navegation.ShowLoading
-        repository.getCurrencies(isNetworkAvailable)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy(
-                onSuccess = {
-                            _currencyListEvents.postValue(Navegation.ShowResult(it))
-                            saveCurrenciesInLocal(it)
-                },
-                onError = {
-                    _currencyListEvents.postValue(Navegation.ShowNotFound(it))
-
-                }
-        ).addTo(disposable)
-    }
-
-    private fun saveCurrenciesInLocal(currencies: List<Currency>) {
         viewModelScope.launch {
-            repository.saveCurrencies(currencies)
+            try {
+                val currencies = repository.getCurrencies(isNetworkAvailable)
+                _currencyListEvents.postValue(Navegation.ShowResult(currencies))
+
+            }catch (e:Exception){
+                _currencyListEvents.postValue(Navegation.ShowNotFound(e))
+            }
         }
     }
 

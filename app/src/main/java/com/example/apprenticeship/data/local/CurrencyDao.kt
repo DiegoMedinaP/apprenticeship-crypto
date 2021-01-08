@@ -7,7 +7,7 @@ import io.reactivex.Single
 @Dao
 interface CurrencyDao {
     @Query("SELECT * FROM Currency")
-    fun getAllCurrencies():Single<List<CurrencyRoomEntity>>
+    suspend fun getAllCurrencies():List<CurrencyRoomEntity>
 
     //@Insert(onConflict = OnConflictStrategy.REPLACE)
     //suspend fun insertCurrency(currency:CurrencyRoomEntity)

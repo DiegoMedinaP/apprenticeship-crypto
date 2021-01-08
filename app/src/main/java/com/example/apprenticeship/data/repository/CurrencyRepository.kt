@@ -9,7 +9,7 @@ import io.reactivex.Single
 
 interface CurrencyRepository {
 
-    fun getCurrencies(isNetworkAvailable:Boolean): Single<List<Currency>>
+    suspend fun getCurrencies(isNetworkAvailable:Boolean): List<Currency>
     fun getCurrencyTicker(book: String): Single<Ticker>
     fun getCurrencyOrderBook(book: String):Single<OrderBook>
 

@@ -10,9 +10,8 @@ import javax.inject.Inject
 
 class RemoteCurrencyDataSourceImpl @Inject constructor(private val currencyService: CurrencyService): RemoteCurrencyDataSource {
 
-    override fun getCurrencies(): Single<List<Currency>> =
-            currencyService.getAvailableBooks()
-                    .map(CurrencyEntity::toCurrencyListDomain)
+    override suspend fun getCurrencies(): List<Currency> =
+        currencyService.getAvailableBooks().toCurrencyListDomain()
 
     override fun getCurrencyTicker(book: String): Single<Ticker> =
         currencyService.getCurrencyTicker(book).map(TickerEntity::toTickerDomain)
@@ -20,6 +19,5 @@ class RemoteCurrencyDataSourceImpl @Inject constructor(private val currencyServi
 
     override fun getCurrencyOrderBook(book: String): Single<OrderBook> =
             currencyService.getOrderBook(book).map(OrderBookEntity::toOrderBookDomain)
-
 
 }

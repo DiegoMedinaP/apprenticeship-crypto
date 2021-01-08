@@ -14,8 +14,12 @@ import javax.inject.Inject
 
 class LocalCurrencyDataSourceImpl @Inject constructor(private val currencyDao: CurrencyDao): LocalCurrencyDataSource {
 
-    override fun getCurrencies(): Single<List<Currency>> {
-        return currencyDao.getAllCurrencies().map(List<CurrencyRoomEntity>::toCurrenciesDomain)
+    override suspend fun getCurrencies(): List<Currency> {
+        return currencyDao.getAllCurrencies().map {
+            return@map it.toCurrencyDomain()
+        }
+
+           // .map(List<CurrencyRoomEntity>::toCurrenciesDomain)
     }
 
     override suspend fun insertCurrenciesIntoRoom(currencies: List<Currency>) {
