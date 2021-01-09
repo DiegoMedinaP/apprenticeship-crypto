@@ -57,10 +57,13 @@ fun List<CurrencyRoomEntity>.toCurrenciesDomain(): ArrayList<Currency> {
     return currencies
 }
 
-fun CurrencyRoomEntity.toCurrencyDomain() = Currency(book,
-    Gson().fromJson(orderBook,OrderBook::class.java) ,
-    Gson().fromJson(ticker,Ticker::class.java)
-)
+fun CurrencyRoomEntity.toCurrencyDomain(): Currency {
+    val cur = Currency(book,
+        Gson().fromJson(orderBook,OrderBook::class.java) ,
+        Gson().fromJson(ticker,Ticker::class.java)
+    )
+    return cur
+}
 
 fun Currency.toCurrencyRoomEntity() = CurrencyRoomEntity(
     book,

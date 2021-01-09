@@ -18,8 +18,8 @@ data class Currency(
                 book.contains("dai") -> "DAI"
                 else -> ""
             }
-
         }
+
     var orderBook: OrderBook? = null
     var ticker: Ticker? = null
 
@@ -27,5 +27,8 @@ data class Currency(
         book: String,
         orderBook: OrderBook? = null,
         ticker: Ticker? = null
-    ) : this(book)
+    ) : this(book){
+        this.orderBook = orderBook
+        this.ticker = ticker
+    }
 }

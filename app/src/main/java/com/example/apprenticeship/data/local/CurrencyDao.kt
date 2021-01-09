@@ -9,9 +9,6 @@ interface CurrencyDao {
     @Query("SELECT * FROM Currency")
     suspend fun getAllCurrencies():List<CurrencyRoomEntity>
 
-    //@Insert(onConflict = OnConflictStrategy.REPLACE)
-    //suspend fun insertCurrency(currency:CurrencyRoomEntity)
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     @JvmSuppressWildcards
     suspend fun insertCurrencies(currencies:List<CurrencyRoomEntity>)

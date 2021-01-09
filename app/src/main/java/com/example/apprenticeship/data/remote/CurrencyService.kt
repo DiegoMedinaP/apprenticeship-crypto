@@ -13,9 +13,9 @@ interface CurrencyService {
     suspend fun getAvailableBooks(): CurrencyEntity
 
     @GET("ticker")
-    fun getCurrencyTicker(@Query("book")book:String): Single<TickerEntity>
+    suspend fun getCurrencyTicker(@Query("book")book:String): TickerEntity
 
     @GET("order_book")
-    fun getOrderBook(@Query("book")book:String): Single<OrderBookEntity>
+    suspend fun getOrderBook(@Query("book")book:String): OrderBookEntity
 
 }

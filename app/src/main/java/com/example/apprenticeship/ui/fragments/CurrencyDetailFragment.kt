@@ -39,29 +39,18 @@ class CurrencyDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setData()
-
-        viewModel.currencyEvents.observe(viewLifecycleOwner, { event ->
+        viewModel.currencyDetailsEvents.observe(viewLifecycleOwner, { event ->
             when (event) {
                 is Navegation.ShowResult<*> -> {
-                    val cur = event.result as Currency
-                    binding.tvLastUpdate.text = cur.ticker?.created_at?.substringBefore("T")
-                    binding.tvCurrencyHighValue.text = String.format("${cur.ticker?.high} mxn")
-                    binding.tvCurrencyLastValue.text = String.format("${cur.ticker?.last} mxn")
-                    binding.tvCurrencyLowValue.text = String.format("${cur.ticker?.low} mxn")
-
-                    askAdapter.submitList(cur.orderBook?.ask)
-                    bidAdapter.submitList(cur.orderBook?.bid)
+                    setCurrencyInfo(event.result as Currency)
                 }
                 is Navegation.ShowNotFound -> {
                     Log.i("Diego tag", "this is actually not working")
-
                 }
                 is Navegation.ShowLoading -> {
                     Log.i("Diego tag", "this is actually loading")
                 }
             }
-
         })
     }
 
@@ -70,15 +59,21 @@ class CurrencyDetailFragment : Fragment() {
         _binding = null
     }
 
-    private fun setData() {
-        viewModel.currency.observe(viewLifecycleOwner, { currency ->
-            binding.tvCurrencyName.text = currency.comercialName
-            Glide.with(binding.root.context).load(CurrencyImageAdapter.getImage(currency.book))
-                .centerCrop()
-                .into(binding.ivCurrency)
-        })
+    private fun setCurrencyInfo(currency: Currency){
+        binding.tvCurrencyName.text = currency.comercialName
+        Glide.with(binding.root.context).load(CurrencyImageAdapter.getImage(currency.book))
+            .centerCrop()
+            .into(binding.ivCurrency)
         binding.rvAskCurrency.adapter = askAdapter
         binding.rvBidCurrency.adapter = bidAdapter
+
+        binding.tvLastUpdate.text = currency.ticker?.created_at?.substringBefore("T")
+        binding.tvCurrencyHighValue.text = String.format("${currency.ticker?.high} mxn")
+        binding.tvCurrencyLastValue.text = String.format("${currency.ticker?.last} mxn")
+        binding.tvCurrencyLowValue.text = String.format("${currency.ticker?.low} mxn")
+
+        askAdapter.submitList(currency.orderBook?.ask)
+        bidAdapter.submitList(currency.orderBook?.bid)
     }
 
 

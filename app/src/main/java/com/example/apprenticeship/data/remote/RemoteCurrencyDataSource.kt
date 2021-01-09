@@ -6,6 +6,6 @@ import com.example.apprenticeship.domain.Ticker
 import io.reactivex.Single
 
 interface RemoteCurrencyDataSource: CurrencyDataSource {
-    fun getCurrencyTicker(book: String): Single<Ticker>
-    fun getCurrencyOrderBook(book: String): Single<OrderBook>
+    suspend fun getCurrencyTicker(book: String): Ticker
+    suspend fun getCurrencyOrderBook(book: String): OrderBook
 }
