@@ -59,7 +59,7 @@ class CurrencyDetailFragment : Fragment() {
         _binding = null
     }
 
-    private fun setCurrencyInfo(currency: Currency){
+    private fun setCurrencyInfo(currency: Currency) {
         binding.tvCurrencyName.text = currency.comercialName
         Glide.with(binding.root.context).load(CurrencyImageAdapter.getImage(currency.book))
             .centerCrop()
@@ -72,8 +72,8 @@ class CurrencyDetailFragment : Fragment() {
         binding.tvCurrencyLastValue.text = String.format("${currency.ticker?.last} mxn")
         binding.tvCurrencyLowValue.text = String.format("${currency.ticker?.low} mxn")
 
-        askAdapter.submitList(currency.orderBook?.ask)
-        bidAdapter.submitList(currency.orderBook?.bid)
+        askAdapter.submitList(currency.orderBook?.asks)
+        bidAdapter.submitList(currency.orderBook?.bids)
     }
 
 

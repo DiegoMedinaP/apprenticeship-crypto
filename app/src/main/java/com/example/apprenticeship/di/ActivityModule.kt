@@ -1,8 +1,8 @@
 package com.example.apprenticeship.di
 
+import com.example.apprenticeship.data.CurrencyDataSource
 import com.example.apprenticeship.data.local.LocalCurrencyDataSource
 import com.example.apprenticeship.data.local.LocalCurrencyDataSourceImpl
-import com.example.apprenticeship.data.remote.RemoteCurrencyDataSource
 import com.example.apprenticeship.data.remote.RemoteCurrencyDataSourceImpl
 import com.example.apprenticeship.data.repository.CurrencyRepository
 import com.example.apprenticeship.data.repository.CurrencyRepositoryImpl
@@ -19,7 +19,7 @@ abstract class ActivityModule {
     abstract fun bindCurrencyRepoImpl(repoImpl: CurrencyRepositoryImpl): CurrencyRepository
 
     @Binds
-    abstract fun bindRemoteCurrencyDataSourceImpl(dataImpl: RemoteCurrencyDataSourceImpl): RemoteCurrencyDataSource
+    abstract fun bindRemoteCurrencyDataSourceImpl(dataImpl: RemoteCurrencyDataSourceImpl): CurrencyDataSource
 
     @Binds
     abstract fun bindLocalCurrencyDataSourceImpl(dataImpl: LocalCurrencyDataSourceImpl): LocalCurrencyDataSource

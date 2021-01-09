@@ -42,8 +42,8 @@ class CurrencyViewModel @ViewModelInject constructor(private val repository: Cur
         _currencyDetailsEvents.value = Navegation.ShowLoading
         viewModelScope.launch {
             try {
-                _currency.value?.ticker = repository.getCurrencyTicker(_currency.value!!.book)
                 _currency.value?.orderBook = repository.getCurrencyOrderBook(_currency.value!!.book)
+                _currency.value?.ticker = repository.getCurrencyTicker(_currency.value!!.book)
                 _currencyDetailsEvents.value = Navegation.ShowResult(_currency.value)
             } catch (e: Exception) {
                 _currencyDetailsEvents.postValue(Navegation.ShowNotFound(e))

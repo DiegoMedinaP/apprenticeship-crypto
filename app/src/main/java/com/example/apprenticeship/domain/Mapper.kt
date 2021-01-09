@@ -1,6 +1,8 @@
 package com.example.apprenticeship.domain
 
 import com.example.apprenticeship.data.local.entities.CurrencyRoomEntity
+import com.example.apprenticeship.data.local.entities.OrderBookRoomEntity
+import com.example.apprenticeship.data.local.entities.TickerRoomEntity
 import com.example.apprenticeship.data.remote.entities.*
 import com.google.gson.Gson
 
@@ -58,9 +60,10 @@ fun List<CurrencyRoomEntity>.toCurrenciesDomain(): ArrayList<Currency> {
 }
 
 fun CurrencyRoomEntity.toCurrencyDomain(): Currency {
-    val cur = Currency(book,
-        Gson().fromJson(orderBook,OrderBook::class.java) ,
-        Gson().fromJson(ticker,Ticker::class.java)
+    val cur = Currency(
+        book,
+        Gson().fromJson(orderBook, OrderBook::class.java),
+        Gson().fromJson(ticker, Ticker::class.java)
     )
     return cur
 }
@@ -69,4 +72,42 @@ fun Currency.toCurrencyRoomEntity() = CurrencyRoomEntity(
     book,
     Gson().toJson(orderBook),
     Gson().toJson(ticker),
+)
+
+fun TickerRoomEntity.toTickerDomain(): Ticker {
+
+    return Ticker(
+        high,
+        last,
+        created_at,
+        book,
+        volume,
+        vwap,
+        low,
+        ask,
+        bid,
+        change_24
+    )
+}
+
+fun OrderBookRoomEntity.toOrderBookDomain(): OrderBook {
+    return Gson().fromJson(this.info, OrderBook::class.java)
+}
+
+fun Ticker.toTickerRoomEntity() = TickerRoomEntity(
+    book!!,
+    high,
+    last,
+    created_at,
+    volume,
+    vwap,
+    low,
+    ask,
+    bid,
+    change_24
+)
+
+fun OrderBook.toOrderBookRoomEntity(book: String) = OrderBookRoomEntity(
+    book,
+    Gson().toJson(this)
 )
