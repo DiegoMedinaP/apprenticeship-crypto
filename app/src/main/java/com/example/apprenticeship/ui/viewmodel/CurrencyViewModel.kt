@@ -18,14 +18,11 @@ class CurrencyViewModel @ViewModelInject constructor(private val repository: Cur
     private val _currencyDetailsEvents = MutableLiveData<Navegation>()
     val currencyDetailsEvents: LiveData<Navegation> get() = _currencyDetailsEvents
 
-    private val _currency = MutableLiveData<Currency>()
-    //val currency: LiveData<Currency> get() = _currency
-
     init {
-        fetchCurrencyInfo()
+        fetchCurrencies()
     }
 
-    private fun fetchCurrencyInfo() {
+    private fun fetchCurrencies() {
         _currencyListEvents.value = Navegation.ShowLoading
         viewModelScope.launch {
             try {
@@ -38,13 +35,13 @@ class CurrencyViewModel @ViewModelInject constructor(private val repository: Cur
         }
     }
 
-    private fun fetchTickerAndOrderBookInfo() {
+    private fun fetchTickerAndOrderBookInfo(currency: Currency) {
         _currencyDetailsEvents.value = Navegation.ShowLoading
         viewModelScope.launch {
             try {
-                _currency.value?.orderBook = repository.getCurrencyOrderBook(_currency.value!!.book)
-                _currency.value?.ticker = repository.getCurrencyTicker(_currency.value!!.book)
-                _currencyDetailsEvents.value = Navegation.ShowResult(_currency.value)
+                currency.orderBook = repository.getCurrencyOrderBook(currency.book)
+                currency.ticker = repository.getCurrencyTicker(currency.book)
+                _currencyDetailsEvents.value = Navegation.ShowResult(currency)
             } catch (e: Exception) {
                 _currencyDetailsEvents.postValue(Navegation.ShowNotFound(e))
             }
@@ -52,9 +49,8 @@ class CurrencyViewModel @ViewModelInject constructor(private val repository: Cur
     }
 
     fun setSelectedCurrency(currency: Currency) {
-        _currency.value = currency
-        _currencyDetailsEvents.value = Navegation.ShowResult(_currency.value)
-        fetchTickerAndOrderBookInfo()
+        _currencyDetailsEvents.value = Navegation.ShowResult(currency)
+        fetchTickerAndOrderBookInfo(currency)
     }
 
 }

@@ -7,16 +7,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
+import com.example.apprenticeship.R
 import com.example.apprenticeship.databinding.FragmentCurrencyDetailBinding
 import com.example.apprenticeship.domain.Currency
 import com.example.apprenticeship.ui.Navegation
 import com.example.apprenticeship.ui.adapters.AskBidAdapter
 import com.example.apprenticeship.ui.adapters.CurrencyImageAdapter
 import com.example.apprenticeship.ui.viewmodel.CurrencyViewModel
+import com.example.apprenticeship.utils.Network
+import com.example.apprenticeship.utils.toDateString
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.*
 
 @AndroidEntryPoint
 class CurrencyDetailFragment : Fragment() {
@@ -67,7 +73,20 @@ class CurrencyDetailFragment : Fragment() {
         binding.rvAskCurrency.adapter = askAdapter
         binding.rvBidCurrency.adapter = bidAdapter
 
-        binding.tvLastUpdate.text = currency.ticker?.created_at?.substringBefore("T")
+        var offlineText = ""
+
+        if (!Network.isNetworkConnected) {
+            offlineText = "Offline: "
+            binding.tvLastUpdate.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.indianRed
+                )
+            )
+        }
+
+        binding.tvLastUpdate.text =
+            String.format("$offlineText ${String().toDateString(currency.ticker?.created_at!!)}")
         binding.tvCurrencyHighValue.text = String.format("${currency.ticker?.high} mxn")
         binding.tvCurrencyLastValue.text = String.format("${currency.ticker?.last} mxn")
         binding.tvCurrencyLowValue.text = String.format("${currency.ticker?.low} mxn")

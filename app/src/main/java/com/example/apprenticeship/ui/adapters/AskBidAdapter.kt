@@ -37,8 +37,8 @@ class AskBidAdapter: ListAdapter<BidAskModel, AskBidAdapter.ViewHolder>(DiffCall
         private val binding = ItemOrderBookBinding.bind(view)
 
         fun bind(bidAsk: BidAskModel) {
-            binding.tvBookPriceValue.text = String.format("${bidAsk.price} mxn")
-            binding.tvBookAmountValue.text = bidAsk.amount
+            binding.tvBookPriceValue.text = String.format("%.4f mxn",bidAsk.price?.toDouble())
+            binding.tvBookAmountValue.text = String.format("%.4f mxn",bidAsk.amount?.toDouble())
         }
     }
 

@@ -4,15 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.apprenticeship.R
 import com.example.apprenticeship.databinding.FragmentMainBinding
+import com.example.apprenticeship.databinding.ItemCurrencyBinding
 import com.example.apprenticeship.domain.Currency
 import com.example.apprenticeship.ui.Navegation
 import com.example.apprenticeship.ui.adapters.CurrencyAdapter
 import com.example.apprenticeship.ui.viewmodel.CurrencyViewModel
+import com.example.apprenticeship.utils.Network
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -29,6 +33,8 @@ class MainFragment : Fragment() {
         }
     }
 
+    private lateinit var snack :Snackbar
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,6 +45,16 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if(!Network.isNetworkConnected){
+            snack = Snackbar.make(binding.root,"Sin conexión",Snackbar.LENGTH_INDEFINITE)
+            snack.setBackgroundTint(ContextCompat.getColor(requireContext(),R.color.indianRed))
+            snack.setAction("X") {
+                snack.dismiss()
+            }
+            snack.show()
+        }
+
         binding.rvCurrency.adapter = adapter
         viewModel.currencyListEvents.observe(viewLifecycleOwner, { event ->
             when (event) {
@@ -60,6 +76,8 @@ class MainFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        if(::snack.isInitialized)
+            snack.dismiss()
     }
 
     private fun onCurrencyClick(currency: Currency) {
