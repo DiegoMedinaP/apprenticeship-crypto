@@ -8,7 +8,9 @@ class RemoteCurrencyDataSourceImpl @Inject constructor(private val currencyServi
     CurrencyDataSource {
 
     override suspend fun getCurrencies(): List<Currency> =
-        currencyService.getAvailableBooks().toCurrencyListDomain()
+        currencyService.getAvailableBooks().toCurrencyListDomain().filter {
+            it.book.contains("mxn")
+        }
 
     override suspend fun getCurrencyTicker(book: String): Ticker =
         currencyService.getCurrencyTicker(book).toTickerDomain()

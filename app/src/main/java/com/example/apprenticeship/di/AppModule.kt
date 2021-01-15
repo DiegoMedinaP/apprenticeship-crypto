@@ -2,8 +2,13 @@ package com.example.apprenticeship.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.apprenticeship.data.CurrencySourceMediator
 import com.example.apprenticeship.data.local.CurrencyDataBase
+import com.example.apprenticeship.data.local.LocalCurrencyDataSourceImpl
+import com.example.apprenticeship.data.mediator.LocalCurrencyDataSourceMediator
+import com.example.apprenticeship.data.mediator.RemoteCurrencyDataSourceMediator
 import com.example.apprenticeship.data.remote.CurrencyService
+import com.example.apprenticeship.data.remote.RemoteCurrencyDataSourceImpl
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -39,5 +44,11 @@ class AppModule {
     @Singleton
     @Provides
     fun provideCurrencyDao(db:CurrencyDataBase) = db.currencyDao()
+
+    @Singleton
+    @Provides
+    fun providesMediatorInstance(remote: RemoteCurrencyDataSourceImpl, local: LocalCurrencyDataSourceImpl) = CurrencySourceMediator(
+        listOf(LocalCurrencyDataSourceMediator(local), RemoteCurrencyDataSourceMediator(remote))
+    )
 
 }

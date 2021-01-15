@@ -1,18 +1,17 @@
 package com.example.apprenticeship.data
 
-import com.example.apprenticeship.data.local.LocalCurrencyDataSource
+import javax.inject.Inject
 
-class CurrencySourceMediator(
-    private val remote: CurrencyDataSource,
-    private val local: LocalCurrencyDataSource
+class CurrencySourceMediator @Inject constructor(
+    val handlers: List<CurrencySourceMediatorInterface>
 ) : CurrencySourceMediatorInterface {
-    override fun addDataSource(source: CurrencyDataSource) {
-        TODO("Not yet implemented")
+
+    override fun getDataSourceToUse(): CurrencyDataSource? {
+        for(handler in handlers){
+            handler.getDataSourceToUse()?.let {
+                return handler.getDataSourceToUse()
+            }
+        }
+        return null
     }
-
-    override fun getDataSourceToUse(): CurrencyDataSource {
-        return remote
-    }
-
-
 }
