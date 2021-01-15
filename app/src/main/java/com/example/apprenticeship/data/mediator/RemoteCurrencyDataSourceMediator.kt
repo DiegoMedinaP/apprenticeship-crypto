@@ -1,7 +1,6 @@
 package com.example.apprenticeship.data.mediator
 
 import com.example.apprenticeship.data.CurrencyDataSource
-import com.example.apprenticeship.data.CurrencySourceMediatorInterface
 import com.example.apprenticeship.utils.Network
 import javax.inject.Inject
 

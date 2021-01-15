@@ -1,12 +1,10 @@
 package com.example.apprenticeship.data.repository
 
-import com.example.apprenticeship.data.CurrencyDataSource
-import com.example.apprenticeship.data.CurrencySourceMediatorInterface
+import com.example.apprenticeship.data.mediator.CurrencySourceMediatorInterface
 import com.example.apprenticeship.data.local.LocalCurrencyDataSource
 import com.example.apprenticeship.domain.Currency
 import com.example.apprenticeship.domain.OrderBook
 import com.example.apprenticeship.domain.Ticker
-import com.example.apprenticeship.utils.Network
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

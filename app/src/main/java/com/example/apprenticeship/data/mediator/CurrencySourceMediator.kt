@@ -1,5 +1,6 @@
-package com.example.apprenticeship.data
+package com.example.apprenticeship.data.mediator
 
+import com.example.apprenticeship.data.CurrencyDataSource
 import javax.inject.Inject
 
 class CurrencySourceMediator @Inject constructor(

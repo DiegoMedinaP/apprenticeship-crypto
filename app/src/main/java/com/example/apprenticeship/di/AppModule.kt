@@ -2,7 +2,7 @@ package com.example.apprenticeship.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.apprenticeship.data.CurrencySourceMediator
+import com.example.apprenticeship.data.mediator.CurrencySourceMediator
 import com.example.apprenticeship.data.local.CurrencyDataBase
 import com.example.apprenticeship.data.local.LocalCurrencyDataSourceImpl
 import com.example.apprenticeship.data.mediator.LocalCurrencyDataSourceMediator
