@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.apprenticeship.data.repository.CurrencyRepository
 import com.example.apprenticeship.domain.Currency
 import com.example.apprenticeship.ui.Navegation
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CurrencyViewModel @ViewModelInject constructor(private val repository: CurrencyRepository) :
@@ -24,7 +25,7 @@ class CurrencyViewModel @ViewModelInject constructor(private val repository: Cur
 
     private fun fetchCurrencies() {
         _currencyListEvents.value = Navegation.ShowLoading
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO){
             try {
                 val currencies = repository.getCurrencies()
                 _currencyListEvents.postValue(Navegation.ShowResult(currencies))
@@ -37,11 +38,12 @@ class CurrencyViewModel @ViewModelInject constructor(private val repository: Cur
 
     private fun fetchTickerAndOrderBookInfo(currency: Currency) {
         _currencyDetailsEvents.value = Navegation.ShowLoading
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
+
             try {
                 currency.orderBook = repository.getCurrencyOrderBook(currency.book)
                 currency.ticker = repository.getCurrencyTicker(currency.book)
-                _currencyDetailsEvents.value = Navegation.ShowResult(currency)
+                _currencyDetailsEvents.postValue(Navegation.ShowResult(currency))
             } catch (e: Exception) {
                 _currencyDetailsEvents.postValue(Navegation.ShowNotFound(e))
             }
