@@ -4,7 +4,7 @@ import com.example.apprenticeship.data.CurrencyDataSource
 import javax.inject.Inject
 
 class CurrencySourceMediator @Inject constructor(
-    val handlers: List<CurrencySourceMediatorInterface>
+    private val handlers: List<CurrencySourceMediatorInterface>
 ) : CurrencySourceMediatorInterface {
 
     override fun getDataSourceToUse(): CurrencyDataSource? {

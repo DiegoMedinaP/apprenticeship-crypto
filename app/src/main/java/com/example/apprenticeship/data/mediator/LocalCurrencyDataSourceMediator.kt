@@ -6,7 +6,7 @@ import com.example.apprenticeship.utils.Network
 import javax.inject.Inject
 
 class LocalCurrencyDataSourceMediator @Inject constructor(
-    private val localCurrencyDataSource: LocalCurrencyDataSource
+    private val localCurrencyDataSource: CurrencyDataSource
 ): CurrencySourceMediatorInterface {
 
     override fun getDataSourceToUse(): CurrencyDataSource? {

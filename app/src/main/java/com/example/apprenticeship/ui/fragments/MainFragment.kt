@@ -20,6 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 
+@Suppress("UNCHECKED_CAST")
 @AndroidEntryPoint
 class MainFragment : Fragment() {
 

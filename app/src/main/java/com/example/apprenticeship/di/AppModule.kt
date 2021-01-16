@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.room.Room
 import com.example.apprenticeship.data.mediator.CurrencySourceMediator
 import com.example.apprenticeship.data.local.CurrencyDataBase
+import com.example.apprenticeship.data.local.LocalCurrencyDataSource
 import com.example.apprenticeship.data.local.LocalCurrencyDataSourceImpl
+import com.example.apprenticeship.data.local.LocalSaveCurrencyImpl
 import com.example.apprenticeship.data.mediator.LocalCurrencyDataSourceMediator
 import com.example.apprenticeship.data.mediator.RemoteCurrencyDataSourceMediator
 import com.example.apprenticeship.data.remote.CurrencyService
@@ -50,5 +52,9 @@ class AppModule {
     fun providesMediatorInstance(remote: RemoteCurrencyDataSourceImpl, local: LocalCurrencyDataSourceImpl) = CurrencySourceMediator(
         listOf(LocalCurrencyDataSourceMediator(local), RemoteCurrencyDataSourceMediator(remote))
     )
+
+    @Singleton
+    @Provides
+    fun localSaveCurrency(db:CurrencyDataBase): LocalCurrencyDataSource = LocalSaveCurrencyImpl(db.currencyDao())
 
 }

@@ -31,9 +31,9 @@ interface CurrencyDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     @JvmSuppressWildcards
-    suspend fun updateTicker(ticker: TickerRoomEntity)
+    suspend fun insertTicker(ticker: TickerRoomEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     @JvmSuppressWildcards
-    suspend fun updateOrderBook(orderBook: OrderBookRoomEntity)
+    suspend fun insertOrderBook(orderBook: OrderBookRoomEntity)
 }

@@ -10,12 +10,11 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CurrencyRepositoryImpl @Inject constructor(
-    private val dataSource: CurrencySourceMediatorInterface,
-    private val localDataSource: LocalCurrencyDataSource
+    private val dataSourceMediator: CurrencySourceMediatorInterface
 ) : CurrencyRepository {
 
     override suspend fun getCurrencies(): List<Currency> {
-        return dataSource.getDataSourceToUse()!!.getCurrencies()
+        return dataSourceMediator.getDataSourceToUse()!!.getCurrencies()
 
         /*if (Network.isNetworkConnected) {
             val currencies = remoteDataSource.getCurrencies().filter {
@@ -29,7 +28,7 @@ class CurrencyRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getCurrencyTicker(book: String): Ticker = withContext(Dispatchers.IO) {
-        return@withContext dataSource.getDataSourceToUse()!!.getCurrencyTicker(book)
+        return@withContext dataSourceMediator.getDataSourceToUse()!!.getCurrencyTicker(book)
         /*if (Network.isNetworkConnected) {
             val ticker = remoteDataSource.getCurrencyTicker(book)
             localDataSource.updateTicker(ticker)
@@ -41,7 +40,7 @@ class CurrencyRepositoryImpl @Inject constructor(
 
     override suspend fun getCurrencyOrderBook(book: String): OrderBook =
         withContext(Dispatchers.IO) {
-            return@withContext dataSource.getDataSourceToUse()!!.getCurrencyOrderBook(book)
+            return@withContext dataSourceMediator.getDataSourceToUse()!!.getCurrencyOrderBook(book)
             /*if (Network.isNetworkConnected) {
                 val orderBook = remoteDataSource.getCurrencyOrderBook(book)
                 localDataSource.updateOrderBook(book, orderBook)
@@ -50,13 +49,5 @@ class CurrencyRepositoryImpl @Inject constructor(
                 return@withContext localDataSource.getCurrencyOrderBook(book)
             }*/
         }
-
-    override suspend fun saveCurrencyInfo(currency: Currency) {
-        localDataSource.updateCurrency(currency)
-    }
-
-    override suspend fun saveCurrencies(currency: List<Currency>) {
-        localDataSource.insertCurrenciesIntoRoom(currency)
-    }
 
 }
