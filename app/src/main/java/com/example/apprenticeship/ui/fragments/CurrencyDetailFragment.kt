@@ -1,5 +1,6 @@
 package com.example.apprenticeship.ui.fragments
 
+import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -45,19 +46,33 @@ class CurrencyDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.layoutNotFound.clNotFound.visibility = View.VISIBLE
+
+
         viewModel.currencyDetailsEvents.observe(viewLifecycleOwner, { event ->
             when (event) {
                 is Navegation.ShowResult<*> -> {
+                    binding.clCurrencyDetail.visibility= View.VISIBLE
+                    binding.layoutNotFound.clNotFound.visibility = View.GONE
+                    binding.pbLoading.visibility = View.GONE
                     setCurrencyInfo(event.result as Currency)
                 }
                 is Navegation.ShowNotFound -> {
-                    Log.i("Diego tag", "this is actually not working")
+                    binding.clCurrencyDetail.visibility= View.GONE
+                    binding.layoutNotFound.clNotFound.visibility = View.VISIBLE
+                    binding.pbLoading.visibility = View.GONE
                 }
                 is Navegation.ShowLoading -> {
-                    Log.i("Diego tag", "this is actually loading")
+                    binding.clCurrencyDetail.visibility= View.GONE
+                    binding.layoutNotFound.clNotFound.visibility = View.GONE
+                    binding.pbLoading.visibility = View.VISIBLE
                 }
             }
         })
+
+        binding.layoutNotFound.btnNewSearch.setOnClickListener {
+            viewModel.fetchTickerAndOrderBookInfo()
+        }
     }
 
     override fun onDestroyView() {
@@ -94,6 +109,4 @@ class CurrencyDetailFragment : Fragment() {
         askAdapter.submitList(currency.orderBook?.asks)
         bidAdapter.submitList(currency.orderBook?.bids)
     }
-
-
 }

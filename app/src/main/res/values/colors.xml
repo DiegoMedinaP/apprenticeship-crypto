@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="indianRed">#CD5C5C</color>
     <color name="limeGreen">#A8F457</color>
+    <color name="lightGray">#D6DBDF</color>
 </resources>

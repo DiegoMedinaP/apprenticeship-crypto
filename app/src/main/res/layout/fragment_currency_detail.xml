@@ -1,174 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragments.CurrencyDetailFragment">
 
-    <TextView
-        android:id="@+id/tvLastUpdate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
-        android:textAlignment="textEnd"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="14:20 27/12/20" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clCurrencyDetail"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvLastUpdate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:textAlignment="textEnd"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="14:20 27/12/20" />
 
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivCurrency"
-        android:layout_width="50sp"
-        android:layout_height="50sp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvCurrencyName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvCurrencyName" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivCurrency"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvCurrencyName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvCurrencyName" />
 
-    <TextView
-        android:id="@+id/tvCurrencyName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/ivCurrency"
-        app:layout_constraintTop_toBottomOf="@+id/tvLastUpdate"
-        tools:text="Bitcoin" />
+        <TextView
+            android:id="@+id/tvCurrencyName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/ivCurrency"
+            app:layout_constraintTop_toBottomOf="@+id/tvLastUpdate"
+            tools:text="Bitcoin" />
 
-    <TextView
-        android:id="@+id/tvCurrencyLastTitle"
+        <TextView
+            android:id="@+id/tvCurrencyLastTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/fragment_currency_detail_currency_last_value"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivCurrency" />
+
+        <TextView
+            android:id="@+id/tvCurrencyLastValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tvCurrencyLastTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvCurrencyLastTitle"
+            app:layout_constraintTop_toTopOf="@+id/tvCurrencyLastTitle"
+            tools:text="418,999" />
+
+        <TextView
+            android:id="@+id/tvCurrencyHighTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/fragment_currency_detail_currency_high"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/tvCurrencyLowTitle"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCurrencyLastValue" />
+
+        <TextView
+            android:id="@+id/tvCurrencyHighValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/limeGreen"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="@+id/tvCurrencyHighTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCurrencyHighTitle"
+            tools:text="418,999" />
+
+        <TextView
+            android:id="@+id/tvCurrencyLowTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_currency_detail_currency_low"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tvCurrencyHighTitle"
+            app:layout_constraintTop_toTopOf="@+id/tvCurrencyHighTitle" />
+
+        <TextView
+            android:id="@+id/tvCurrencyLowValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/indianRed"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tvCurrencyLowTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvCurrencyLowTitle"
+            tools:text="418,999" />
+
+        <TextView
+            android:id="@+id/tvAskTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/fragment_currency_detail_ask_title"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/tvCurrencyLowTitle"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCurrencyHighValue" />
+
+        <TextView
+            android:id="@+id/tvBidTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/fragment_currency_title_bid_title"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tvAskTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvCurrencyLowValue" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAskCurrency"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/rvBidCurrency"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAskTitle"
+            tools:itemCount="8"
+            tools:listitem="@layout/item_order_book" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBidCurrency"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/rvAskCurrency"
+            app:layout_constraintTop_toBottomOf="@+id/tvBidTitle"
+            tools:itemCount="8"
+            tools:listitem="@layout/item_order_book" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/pbLoading"
+        style="@style/SpinKitView.Large.DoubleBounce"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
-        android:text="@string/fragment_currency_detail_currency_last_value"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivCurrency" />
-
-    <TextView
-        android:id="@+id/tvCurrencyLastValue"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/tvCurrencyLastTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvCurrencyLastTitle"
-        app:layout_constraintTop_toTopOf="@+id/tvCurrencyLastTitle"
-        tools:text="418,999" />
-
-    <TextView
-        android:id="@+id/tvCurrencyHighTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="@string/fragment_currency_detail_currency_high"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/tvCurrencyLowTitle"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCurrencyLastValue" />
-
-    <TextView
-        android:id="@+id/tvCurrencyHighValue"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textColor="@color/limeGreen"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="@+id/tvCurrencyHighTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCurrencyHighTitle"
-        tools:text="418,999" />
-
-    <TextView
-        android:id="@+id/tvCurrencyLowTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/fragment_currency_detail_currency_low"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tvCurrencyHighTitle"
-        app:layout_constraintTop_toTopOf="@+id/tvCurrencyHighTitle" />
-
-    <TextView
-        android:id="@+id/tvCurrencyLowValue"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textColor="@color/indianRed"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/tvCurrencyLowTitle"
-        app:layout_constraintTop_toBottomOf="@+id/tvCurrencyLowTitle"
-        tools:text="418,999" />
-
-    <TextView
-        android:id="@+id/tvAskTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/fragment_currency_detail_ask_title"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/tvCurrencyLowTitle"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCurrencyHighValue" />
-
-    <TextView
-        android:id="@+id/tvBidTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/fragment_currency_title_bid_title"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tvAskTitle"
-        app:layout_constraintTop_toBottomOf="@+id/tvCurrencyLowValue" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvAskCurrency"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/rvBidCurrency"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvAskTitle"
-        tools:itemCount="8"
-        tools:listitem="@layout/item_order_book" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvBidCurrency"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_gravity="center"
+        app:SpinKit_Color="@color/teal_700"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/rvAskCurrency"
-        app:layout_constraintTop_toBottomOf="@+id/tvBidTitle"
-        tools:itemCount="8"
-        tools:listitem="@layout/item_order_book" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/layoutNotFound"
+        layout="@layout/item_not_found"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

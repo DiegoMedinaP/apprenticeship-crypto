@@ -19,11 +19,13 @@ class CurrencyViewModel @ViewModelInject constructor(private val repository: Cur
     private val _currencyDetailsEvents = MutableLiveData<Navegation>()
     val currencyDetailsEvents: LiveData<Navegation> get() = _currencyDetailsEvents
 
+    private val _currency = MutableLiveData<Currency>()
+
     init {
         fetchCurrencies()
     }
 
-    private fun fetchCurrencies() {
+    fun fetchCurrencies() {
         _currencyListEvents.value = Navegation.ShowLoading
         viewModelScope.launch(Dispatchers.IO){
             try {
@@ -36,14 +38,14 @@ class CurrencyViewModel @ViewModelInject constructor(private val repository: Cur
         }
     }
 
-    private fun fetchTickerAndOrderBookInfo(currency: Currency) {
+    fun fetchTickerAndOrderBookInfo() {
         _currencyDetailsEvents.value = Navegation.ShowLoading
         viewModelScope.launch(Dispatchers.IO) {
 
             try {
-                currency.orderBook = repository.getCurrencyOrderBook(currency.book)
-                currency.ticker = repository.getCurrencyTicker(currency.book)
-                _currencyDetailsEvents.postValue(Navegation.ShowResult(currency))
+                _currency.value?.orderBook = repository.getCurrencyOrderBook(_currency.value!!.book)
+                _currency.value?.ticker = repository.getCurrencyTicker(_currency.value!!.book)
+                _currencyDetailsEvents.postValue(Navegation.ShowResult(_currency.value))
             } catch (e: Exception) {
                 _currencyDetailsEvents.postValue(Navegation.ShowNotFound(e))
             }
@@ -52,7 +54,8 @@ class CurrencyViewModel @ViewModelInject constructor(private val repository: Cur
 
     fun setSelectedCurrency(currency: Currency) {
         _currencyDetailsEvents.value = Navegation.ShowResult(currency)
-        fetchTickerAndOrderBookInfo(currency)
+        _currency.value = currency
+        fetchTickerAndOrderBookInfo()
     }
 
 }

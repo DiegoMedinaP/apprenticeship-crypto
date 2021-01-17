@@ -47,9 +47,12 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if(!Network.isNetworkConnected){
-            snack = Snackbar.make(binding.root,"Sin conexión",Snackbar.LENGTH_INDEFINITE)
-            snack.setBackgroundTint(ContextCompat.getColor(requireContext(),R.color.indianRed))
+        binding.layoutNotFound.clNotFound.visibility = View.GONE
+
+
+        if (!Network.isNetworkConnected) {
+            snack = Snackbar.make(binding.root, "Sin conexión", Snackbar.LENGTH_INDEFINITE)
+            snack.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.indianRed))
             snack.setAction("X") {
                 snack.dismiss()
             }
@@ -62,16 +65,27 @@ class MainFragment : Fragment() {
                 is Navegation.ShowResult<*> -> {
                     binding.pbLoading.visibility = View.GONE
                     adapter.submitList(event.result as List<Currency>)
+                    if (event.result.size==0)
+                        binding.layoutNotFound.clNotFound.visibility = View.VISIBLE
+                    else
+                        binding.layoutNotFound.clNotFound.visibility = View.GONE
+
                 }
                 is Navegation.ShowNotFound -> {
+                    binding.layoutNotFound.clNotFound.visibility = View.VISIBLE
                     binding.pbLoading.visibility = View.GONE
                 }
                 is Navegation.ShowLoading -> {
+                    binding.layoutNotFound.clNotFound.visibility = View.GONE
                     binding.pbLoading.visibility = View.VISIBLE
                 }
             }
 
         })
+
+        binding.layoutNotFound.btnNewSearch.setOnClickListener {
+            viewModel.fetchCurrencies()
+        }
     }
 
     override fun onDestroyView() {

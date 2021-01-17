@@ -17,14 +17,21 @@
         tools:listitem="@layout/item_currency"
         />
 
-    <ProgressBar
+    <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/pbLoading"
+        style="@style/SpinKitView.Large.DoubleBounce"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/rvCurrency"
+        android:layout_gravity="center"
+        app:SpinKit_Color="@color/teal_700"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/layoutNotFound"
+        layout="@layout/item_not_found"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
