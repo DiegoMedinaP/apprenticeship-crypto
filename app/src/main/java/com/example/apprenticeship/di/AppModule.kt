@@ -18,6 +18,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.schedulers.Schedulers
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -29,11 +31,20 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun currencyProvider(): CurrencyService {
+    fun httpLogingInterceptorProvider(): HttpLoggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS)
+
+    @Provides
+    @Singleton
+    fun okHttpClientProvider(httpInterceptor:HttpLoggingInterceptor) =  OkHttpClient.Builder().addInterceptor(httpInterceptor).build()
+
+    @Provides
+    @Singleton
+    fun currencyProvider(okHttpClient:OkHttpClient): CurrencyService {
         return Retrofit.Builder()
             .baseUrl("https://api.bitso.com/v3/")
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
+            .client(okHttpClient)
             .build().create(CurrencyService::class.java)
     }
 
