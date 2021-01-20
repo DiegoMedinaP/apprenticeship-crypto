@@ -1,7 +1,7 @@
 package com.example.apprenticeship
 
 import com.example.apprenticeship.data.local.LocalCurrencyDataSource
-import com.example.apprenticeship.data.remote.CurrencyService
+import com.example.apprenticeship.data.remote.service.CurrencyService
 import com.example.apprenticeship.data.remote.RemoteCurrencyDataSourceImpl
 import com.example.apprenticeship.data.remote.entities.*
 import com.example.apprenticeship.domain.toCurrencyListDomain

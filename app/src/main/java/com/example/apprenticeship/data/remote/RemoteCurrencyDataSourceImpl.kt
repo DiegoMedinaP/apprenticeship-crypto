@@ -2,10 +2,11 @@ package com.example.apprenticeship.data.remote
 
 import com.example.apprenticeship.data.CurrencyDataSource
 import com.example.apprenticeship.data.local.LocalCurrencyDataSource
+import com.example.apprenticeship.data.remote.service.CurrencyService
 import com.example.apprenticeship.domain.*
 import javax.inject.Inject
 
-class RemoteCurrencyDataSourceImpl @Inject constructor(private val currencyService: CurrencyService,private val localDataSource:LocalCurrencyDataSource) :
+class RemoteCurrencyDataSourceImpl @Inject constructor(private val currencyService: CurrencyService, private val localDataSource:LocalCurrencyDataSource) :
     CurrencyDataSource {
 
     override suspend fun getCurrencies(): List<Currency> {

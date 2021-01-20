@@ -1,4 +1,4 @@
-package com.example.apprenticeship.data.remote
+package com.example.apprenticeship.data.remote.service
 
 import com.example.apprenticeship.data.remote.entities.CurrencyEntity
 import com.example.apprenticeship.data.remote.entities.OrderBookEntity

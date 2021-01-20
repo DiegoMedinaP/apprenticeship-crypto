@@ -9,8 +9,9 @@ import com.example.apprenticeship.data.local.LocalCurrencyDataSourceImpl
 import com.example.apprenticeship.data.local.LocalSaveCurrencyImpl
 import com.example.apprenticeship.data.mediator.LocalCurrencyDataSourceMediator
 import com.example.apprenticeship.data.mediator.RemoteCurrencyDataSourceMediator
-import com.example.apprenticeship.data.remote.CurrencyService
+import com.example.apprenticeship.data.remote.service.CurrencyService
 import com.example.apprenticeship.data.remote.RemoteCurrencyDataSourceImpl
+import com.example.apprenticeship.data.remote.service.UserAgentInterceptor
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -35,7 +36,15 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun okHttpClientProvider(httpInterceptor:HttpLoggingInterceptor) =  OkHttpClient.Builder().addInterceptor(httpInterceptor).build()
+    fun userAgentInterceptor(): UserAgentInterceptor = UserAgentInterceptor()
+
+    @Provides
+    @Singleton
+    fun okHttpClientProvider(httpInterceptor:HttpLoggingInterceptor,userAgentInterceptor: UserAgentInterceptor) =
+        OkHttpClient.Builder()
+        .addInterceptor(httpInterceptor)
+        .addInterceptor(userAgentInterceptor)
+        .build()
 
     @Provides
     @Singleton
