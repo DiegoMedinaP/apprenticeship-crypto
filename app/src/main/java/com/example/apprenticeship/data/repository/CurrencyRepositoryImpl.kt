@@ -2,6 +2,7 @@ package com.example.apprenticeship.data.repository
 
 import com.example.apprenticeship.data.mediator.CurrencySourceMediatorInterface
 import com.example.apprenticeship.domain.Currency
+import com.example.apprenticeship.domain.Ticker
 import javax.inject.Inject
 
 class CurrencyRepositoryImpl @Inject constructor(
@@ -9,7 +10,7 @@ class CurrencyRepositoryImpl @Inject constructor(
 ) : CurrencyRepository {
 
     override suspend fun getCurrencies(): List<Currency> {
-        return dataSourceMediator.getDataSourceToUse()!!.getCurrencies()
+        return dataSourceMediator.getDataSourceToUse()?.getCurrencies() ?: listOf()
 
         /*if (Network.isNetworkConnected) {
             val currencies = remoteDataSource.getCurrencies().filter {

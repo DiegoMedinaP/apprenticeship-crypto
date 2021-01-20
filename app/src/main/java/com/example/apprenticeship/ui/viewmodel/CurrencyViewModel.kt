@@ -27,10 +27,10 @@ class CurrencyViewModel @ViewModelInject constructor(private val repository: Cur
 
     fun fetchCurrencies() {
         _currencyListEvents.value = Navegation.ShowLoading
-        viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch{
             try {
                 val currencies = repository.getCurrencies()
-                _currencyListEvents.postValue(Navegation.ShowResult(currencies))
+                _currencyListEvents.value = Navegation.ShowResult(currencies)
 
             } catch (e: Exception) {
                 _currencyListEvents.postValue(Navegation.ShowNotFound(e))
@@ -40,7 +40,7 @@ class CurrencyViewModel @ViewModelInject constructor(private val repository: Cur
 
     fun fetchTickerAndOrderBookInfo() {
         _currencyDetailsEvents.value = Navegation.ShowLoading
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
 
             try {
                 _currency.value?.orderBook = repository.getCurrencyOrderBook(_currency.value!!.book)
