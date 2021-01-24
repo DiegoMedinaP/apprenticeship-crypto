@@ -3,10 +3,15 @@ package com.example.apprenticeship.data.remote
 import com.example.apprenticeship.data.CurrencyDataSource
 import com.example.apprenticeship.data.local.LocalCurrencyDataSource
 import com.example.apprenticeship.data.remote.service.CurrencyService
-import com.example.apprenticeship.domain.*
+import com.example.apprenticeship.domain.Currency
+import com.example.apprenticeship.domain.OrderBook
+import com.example.apprenticeship.domain.Ticker
+import com.example.apprenticeship.domain.toCurrencyListDomain
+import com.example.apprenticeship.domain.toOrderBookDomain
+import com.example.apprenticeship.domain.toTickerDomain
 import javax.inject.Inject
 
-class RemoteCurrencyDataSourceImpl @Inject constructor(private val currencyService: CurrencyService, private val localDataSource:LocalCurrencyDataSource) :
+class RemoteCurrencyDataSourceImpl @Inject constructor(private val currencyService: CurrencyService, private val localDataSource: LocalCurrencyDataSource) :
     CurrencyDataSource {
 
     override suspend fun getCurrencies(): List<Currency> {
@@ -17,7 +22,6 @@ class RemoteCurrencyDataSourceImpl @Inject constructor(private val currencyServi
         return currencies
     }
 
-
     override suspend fun getCurrencyTicker(book: String): Ticker {
         val ticker = currencyService.getCurrencyTicker(book).toTickerDomain()
         localDataSource.updateTicker(ticker)
@@ -26,8 +30,7 @@ class RemoteCurrencyDataSourceImpl @Inject constructor(private val currencyServi
 
     override suspend fun getCurrencyOrderBook(book: String): OrderBook {
         val orderBook = currencyService.getOrderBook(book).toOrderBookDomain()
-        localDataSource.updateOrderBook(book,orderBook)
+        localDataSource.updateOrderBook(book, orderBook)
         return orderBook
     }
-
 }

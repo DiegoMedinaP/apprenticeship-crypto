@@ -8,7 +8,7 @@ class CurrencySourceMediator @Inject constructor(
 ) : CurrencySourceMediatorInterface {
 
     override fun getDataSourceToUse(): CurrencyDataSource? {
-        for(handler in handlers){
+        for (handler in handlers) {
             handler.getDataSourceToUse()?.let {
                 return handler.getDataSourceToUse()
             }

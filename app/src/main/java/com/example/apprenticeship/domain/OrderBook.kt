@@ -7,7 +7,6 @@ data class OrderBook(
     val asks: ArrayList<BidAskModel>
 )
 
-
 data class BidAskModel(
     val book: String?,
     val price: String?,

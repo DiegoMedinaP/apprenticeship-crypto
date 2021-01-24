@@ -16,5 +16,4 @@ class CurrencyRepositoryImpl @Inject constructor(
 
     override suspend fun getCurrencyOrderBook(book: String) =
         dataSourceMediator.getDataSourceToUse()!!.getCurrencyOrderBook(book)
-
 }

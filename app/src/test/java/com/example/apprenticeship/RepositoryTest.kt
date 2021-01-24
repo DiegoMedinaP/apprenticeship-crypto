@@ -35,7 +35,7 @@ class RepositoryTest {
     @Test
     fun `get currencies from data source given by mediator`() {
 
-        //GIVEN
+        // GIVEN
         val expectedResult = mockedCurrencies
         runBlocking {
 
@@ -44,7 +44,7 @@ class RepositoryTest {
                     expectedResult
                 )
 
-            //WHEN
+            // WHEN
             assertEquals(repository.getCurrencies().size, 5)
             assertEquals(repository.getCurrencies(), expectedResult)
         }
@@ -53,7 +53,7 @@ class RepositoryTest {
     @Test
     fun `get ticker from data source given by mediator`() {
 
-        //GIVEN
+        // GIVEN
         val expectedResult = mockedTicker
         runBlocking {
 
@@ -62,7 +62,7 @@ class RepositoryTest {
                     expectedResult
                 )
 
-            //WHEN
+            // WHEN
             assertEquals(repository.getCurrencyTicker("btc_mxn"), expectedResult)
         }
     }
@@ -70,7 +70,7 @@ class RepositoryTest {
     @Test
     fun `get orderBook from data source given by mediator`() {
 
-        //GIVEN
+        // GIVEN
         val expectedResult = mockedOrderBook
         runBlocking {
 
@@ -79,18 +79,17 @@ class RepositoryTest {
                     expectedResult
                 )
 
-            //WHEN
+            // WHEN
             assertEquals(repository.getCurrencyOrderBook("btc_mxn"), expectedResult)
         }
     }
-
 
     private val mockedCurrencies = arrayListOf(
         Currency("btc"),
         Currency("etherum"),
         Currency("xrp"),
         Currency("mana"),
-        Currency("golem"),
+        Currency("golem")
     )
 
     private val mockedTicker = Ticker(
@@ -112,6 +111,4 @@ class RepositoryTest {
         arrayListOf(),
         arrayListOf()
     )
-
 }
-

@@ -1,9 +1,15 @@
 package com.example.apprenticeship.data.local
 
-import com.example.apprenticeship.domain.*
+import com.example.apprenticeship.domain.Currency
+import com.example.apprenticeship.domain.OrderBook
+import com.example.apprenticeship.domain.Ticker
+import com.example.apprenticeship.domain.toCurrencyRoomEntity
+import com.example.apprenticeship.domain.toOrderBookRoomEntity
+import com.example.apprenticeship.domain.toTickerRoomEntity
 import javax.inject.Inject
 
-class LocalSaveCurrencyImpl@Inject constructor(private val currencyDao: CurrencyDao)  : LocalCurrencyDataSource {
+class LocalSaveCurrencyImpl @Inject constructor(private val currencyDao: CurrencyDao) :
+    LocalCurrencyDataSource {
     override suspend fun insertCurrenciesIntoRoom(currencies: List<Currency>) {
         currencyDao.insertCurrencies(currencies.map {
             it.toCurrencyRoomEntity()

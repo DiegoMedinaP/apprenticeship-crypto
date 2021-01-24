@@ -1,11 +1,11 @@
 package com.example.apprenticeship.di
 
 import com.example.apprenticeship.data.CurrencyDataSource
-import com.example.apprenticeship.data.mediator.CurrencySourceMediator
-import com.example.apprenticeship.data.mediator.CurrencySourceMediatorInterface
 import com.example.apprenticeship.data.local.LocalCurrencyDataSource
 import com.example.apprenticeship.data.local.LocalCurrencyDataSourceImpl
 import com.example.apprenticeship.data.local.LocalSaveCurrencyImpl
+import com.example.apprenticeship.data.mediator.CurrencySourceMediator
+import com.example.apprenticeship.data.mediator.CurrencySourceMediatorInterface
 import com.example.apprenticeship.data.remote.RemoteCurrencyDataSourceImpl
 import com.example.apprenticeship.data.repository.CurrencyRepository
 import com.example.apprenticeship.data.repository.CurrencyRepositoryImpl
@@ -28,9 +28,8 @@ abstract class ActivityModule {
     abstract fun bindLocalCurrencyDataSourceImpl(dataImpl: LocalCurrencyDataSourceImpl): CurrencyDataSource
 
     @Binds
-    abstract fun bindCurrencySourceMediator(currencySourceMediator : CurrencySourceMediator): CurrencySourceMediatorInterface
+    abstract fun bindCurrencySourceMediator(currencySourceMediator: CurrencySourceMediator): CurrencySourceMediatorInterface
 
     @Binds
     abstract fun bindLocalSaveCurrencyImpl(currencySaveImpl: LocalSaveCurrencyImpl): LocalCurrencyDataSource
-
 }

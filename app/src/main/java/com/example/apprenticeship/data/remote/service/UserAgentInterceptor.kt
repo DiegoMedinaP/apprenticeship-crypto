@@ -4,9 +4,9 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import okhttp3.internal.userAgent
 
-class UserAgentInterceptor :Interceptor{
+class UserAgentInterceptor : Interceptor {
 
-    companion object{
+    companion object {
         private const val USER_AGENT = "user-Agent"
     }
 

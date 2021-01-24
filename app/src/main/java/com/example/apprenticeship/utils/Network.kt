@@ -28,4 +28,3 @@ fun Application.startNetworkCallback() {
 object Network {
     var isNetworkConnected: Boolean by Delegates.observable(false) { _, _, _ -> }
 }
-

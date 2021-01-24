@@ -1,9 +1,7 @@
 package com.example.apprenticeship.ui.fragments
 
-import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,8 +20,6 @@ import com.example.apprenticeship.ui.viewmodel.CurrencyViewModel
 import com.example.apprenticeship.utils.Network
 import com.example.apprenticeship.utils.toDateString
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
-import java.util.*
 
 @AndroidEntryPoint
 class CurrencyDetailFragment : Fragment() {
@@ -35,7 +31,8 @@ class CurrencyDetailFragment : Fragment() {
     private val bidAdapter by lazy { AskBidAdapter() }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCurrencyDetailBinding.inflate(layoutInflater)
@@ -48,22 +45,21 @@ class CurrencyDetailFragment : Fragment() {
 
         binding.layoutNotFound.clNotFound.visibility = View.VISIBLE
 
-
         viewModel.currencyDetailsEvents.observe(viewLifecycleOwner, { event ->
             when (event) {
                 is Navegation.ShowResult<*> -> {
-                    binding.clCurrencyDetail.visibility= View.VISIBLE
+                    binding.clCurrencyDetail.visibility = View.VISIBLE
                     binding.layoutNotFound.clNotFound.visibility = View.GONE
                     binding.pbLoading.visibility = View.GONE
                     setCurrencyInfo(event.result as Currency)
                 }
                 is Navegation.ShowNotFound -> {
-                    binding.clCurrencyDetail.visibility= View.GONE
+                    binding.clCurrencyDetail.visibility = View.GONE
                     binding.layoutNotFound.clNotFound.visibility = View.VISIBLE
                     binding.pbLoading.visibility = View.GONE
                 }
                 is Navegation.ShowLoading -> {
-                    binding.clCurrencyDetail.visibility= View.GONE
+                    binding.clCurrencyDetail.visibility = View.GONE
                     binding.layoutNotFound.clNotFound.visibility = View.GONE
                     binding.pbLoading.visibility = View.VISIBLE
                 }

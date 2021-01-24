@@ -10,7 +10,7 @@ import com.example.apprenticeship.R
 import com.example.apprenticeship.databinding.ItemOrderBookBinding
 import com.example.apprenticeship.domain.BidAskModel
 
-class AskBidAdapter: ListAdapter<BidAskModel, AskBidAdapter.ViewHolder>(DiffCallback()) {
+class AskBidAdapter : ListAdapter<BidAskModel, AskBidAdapter.ViewHolder>(DiffCallback()) {
 
     class DiffCallback : DiffUtil.ItemCallback<BidAskModel>() {
 
@@ -28,7 +28,6 @@ class AskBidAdapter: ListAdapter<BidAskModel, AskBidAdapter.ViewHolder>(DiffCall
             LayoutInflater.from(parent.context).inflate(R.layout.item_order_book, parent, false)
         )
 
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
@@ -37,9 +36,8 @@ class AskBidAdapter: ListAdapter<BidAskModel, AskBidAdapter.ViewHolder>(DiffCall
         private val binding = ItemOrderBookBinding.bind(view)
 
         fun bind(bidAsk: BidAskModel) {
-            binding.tvBookPriceValue.text = String.format("%.4f mxn",bidAsk.price?.toDouble())
-            binding.tvBookAmountValue.text = String.format("%.4f mxn",bidAsk.amount?.toDouble())
+            binding.tvBookPriceValue.text = String.format("%.4f mxn", bidAsk.price?.toDouble())
+            binding.tvBookAmountValue.text = String.format("%.4f mxn", bidAsk.amount?.toDouble())
         }
     }
-
 }

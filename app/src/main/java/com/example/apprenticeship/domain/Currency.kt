@@ -27,7 +27,7 @@ data class Currency(
         book: String,
         orderBook: OrderBook? = null,
         ticker: Ticker? = null
-    ) : this(book){
+    ) : this(book) {
         this.orderBook = orderBook
         this.ticker = ticker
     }

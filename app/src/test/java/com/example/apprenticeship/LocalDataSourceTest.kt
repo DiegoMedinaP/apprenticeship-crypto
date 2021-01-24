@@ -3,7 +3,11 @@ package com.example.apprenticeship
 import com.example.apprenticeship.data.local.CurrencyDao
 import com.example.apprenticeship.data.local.LocalCurrencyDataSourceImpl
 import com.example.apprenticeship.data.local.entities.CurrencyRoomEntity
-import com.example.apprenticeship.domain.*
+import com.example.apprenticeship.domain.OrderBook
+import com.example.apprenticeship.domain.Ticker
+import com.example.apprenticeship.domain.toCurrenciesDomain
+import com.example.apprenticeship.domain.toOrderBookRoomEntity
+import com.example.apprenticeship.domain.toTickerRoomEntity
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Before
@@ -26,7 +30,7 @@ class LocalDataSourceTest {
     @Test
     fun `get currencies from local data base`() {
 
-        //GIVEN
+        // GIVEN
         runBlocking {
 
             BDDMockito.`when`(currencyDao.getAllCurrencies())
@@ -34,7 +38,7 @@ class LocalDataSourceTest {
                     mockedCurrenciesRoom
                 )
 
-            //WHEN
+            // WHEN
             Assert.assertEquals(
                 localDataSource.getCurrencies(),
                 mockedCurrenciesRoom.toCurrenciesDomain()
@@ -45,7 +49,7 @@ class LocalDataSourceTest {
     @Test
     fun `get ticker from local data base`() {
 
-        //GIVEN
+        // GIVEN
         val expectedResult = mockedTicker
         runBlocking {
 
@@ -54,7 +58,7 @@ class LocalDataSourceTest {
                     mockedTicker.toTickerRoomEntity()
                 )
 
-            //WHEN
+            // WHEN
             Assert.assertEquals(localDataSource.getCurrencyTicker("btc_mxn"), expectedResult)
         }
     }
@@ -62,7 +66,7 @@ class LocalDataSourceTest {
     @Test
     fun `get orderBook from local data base`() {
 
-        //GIVEN
+        // GIVEN
         val expectedResult = mockedOrderBook
         runBlocking {
 
@@ -70,7 +74,7 @@ class LocalDataSourceTest {
                 .thenReturn(
                     expectedResult.toOrderBookRoomEntity("btc_mxn")
                 )
-            //WHEN
+            // WHEN
             Assert.assertEquals(localDataSource.getCurrencyOrderBook("btc_mxn"), expectedResult)
         }
     }
@@ -80,7 +84,7 @@ class LocalDataSourceTest {
         CurrencyRoomEntity("etherum", null, null),
         CurrencyRoomEntity("xrp", null, null),
         CurrencyRoomEntity("mana", null, null),
-        CurrencyRoomEntity("golem", null, null),
+        CurrencyRoomEntity("golem", null, null)
     )
 
     private val mockedTicker = Ticker(

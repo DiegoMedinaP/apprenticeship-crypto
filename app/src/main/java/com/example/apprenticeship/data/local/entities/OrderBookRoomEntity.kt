@@ -7,5 +7,5 @@ import androidx.room.PrimaryKey
 data class OrderBookRoomEntity(
     @PrimaryKey
     val book: String,
-    val info: String?,
+    val info: String?
 )

@@ -1,9 +1,14 @@
 package com.example.apprenticeship
 
 import com.example.apprenticeship.data.local.LocalCurrencyDataSource
-import com.example.apprenticeship.data.remote.service.CurrencyService
 import com.example.apprenticeship.data.remote.RemoteCurrencyDataSourceImpl
-import com.example.apprenticeship.data.remote.entities.*
+import com.example.apprenticeship.data.remote.entities.CurrencyEntity
+import com.example.apprenticeship.data.remote.entities.CurrencyInfoEntity
+import com.example.apprenticeship.data.remote.entities.OrderBookEntity
+import com.example.apprenticeship.data.remote.entities.OrderBookInfoEntity
+import com.example.apprenticeship.data.remote.entities.TickerEntity
+import com.example.apprenticeship.data.remote.entities.TickerInfoEntity
+import com.example.apprenticeship.data.remote.service.CurrencyService
 import com.example.apprenticeship.domain.toCurrencyListDomain
 import com.example.apprenticeship.domain.toOrderBookDomain
 import com.example.apprenticeship.domain.toTickerDomain
@@ -15,7 +20,6 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
-
 
 @RunWith(MockitoJUnitRunner::class)
 class RemoteDataSourceTest {
@@ -36,7 +40,7 @@ class RemoteDataSourceTest {
     @Test
     fun `get currencies from remote data base`() {
 
-        //GIVEN
+        // GIVEN
         runBlocking {
 
             `when`(service.getAvailableBooks())
@@ -44,7 +48,7 @@ class RemoteDataSourceTest {
                     mockedCurrencies
                 )
 
-            //WHEN
+            // WHEN
             assertEquals(
                 remoteDataSouce.getCurrencies(),
                 mockedCurrencies.toCurrencyListDomain()
@@ -55,7 +59,7 @@ class RemoteDataSourceTest {
     @Test
     fun `get ticker from remote data base`() {
 
-        //GIVEN
+        // GIVEN
         val expectedResult = mockedTicker.toTickerDomain()
         runBlocking {
 
@@ -64,7 +68,7 @@ class RemoteDataSourceTest {
                     mockedTicker
                 )
 
-            //WHEN
+            // WHEN
             assertEquals(remoteDataSouce.getCurrencyTicker("btc_mxn"), expectedResult)
         }
     }
@@ -72,7 +76,7 @@ class RemoteDataSourceTest {
     @Test
     fun `get orderBook from remote data base`() {
 
-        //GIVEN
+        // GIVEN
         val expectedResult = mockedOrderBook.toOrderBookDomain()
         runBlocking {
 
@@ -80,7 +84,7 @@ class RemoteDataSourceTest {
                 .thenReturn(
                     mockedOrderBook
                 )
-            //WHEN
+            // WHEN
             assertEquals(remoteDataSouce.getCurrencyOrderBook("btc_mxn"), expectedResult)
         }
     }
@@ -120,5 +124,4 @@ class RemoteDataSourceTest {
             arrayListOf()
         )
     )
-
 }

@@ -3,7 +3,11 @@ package com.example.apprenticeship.domain
 import com.example.apprenticeship.data.local.entities.CurrencyRoomEntity
 import com.example.apprenticeship.data.local.entities.OrderBookRoomEntity
 import com.example.apprenticeship.data.local.entities.TickerRoomEntity
-import com.example.apprenticeship.data.remote.entities.*
+import com.example.apprenticeship.data.remote.entities.BidAskEntity
+import com.example.apprenticeship.data.remote.entities.CurrencyEntity
+import com.example.apprenticeship.data.remote.entities.CurrencyInfoEntity
+import com.example.apprenticeship.data.remote.entities.OrderBookEntity
+import com.example.apprenticeship.data.remote.entities.TickerEntity
 import com.google.gson.Gson
 
 fun CurrencyInfoEntity.toCurrencyDomain() = book?.let { Currency(it) }
@@ -50,7 +54,6 @@ fun ArrayList<BidAskEntity>.toBidsAskDomain(): ArrayList<BidAskModel> {
     return bids
 }
 
-
 fun List<CurrencyRoomEntity>.toCurrenciesDomain(): ArrayList<Currency> {
     val currencies = arrayListOf<Currency>()
     for (currency in this) {
@@ -71,7 +74,7 @@ fun CurrencyRoomEntity.toCurrencyDomain(): Currency {
 fun Currency.toCurrencyRoomEntity() = CurrencyRoomEntity(
     book,
     Gson().toJson(orderBook),
-    Gson().toJson(ticker),
+    Gson().toJson(ticker)
 )
 
 fun TickerRoomEntity.toTickerDomain(): Ticker {
