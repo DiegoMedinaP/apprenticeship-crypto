@@ -3,11 +3,7 @@ package com.example.apprenticeship.domain
 import com.example.apprenticeship.data.local.entities.CurrencyRoomEntity
 import com.example.apprenticeship.data.local.entities.OrderBookRoomEntity
 import com.example.apprenticeship.data.local.entities.TickerRoomEntity
-import com.example.apprenticeship.data.remote.entities.BidAskEntity
-import com.example.apprenticeship.data.remote.entities.CurrencyEntity
-import com.example.apprenticeship.data.remote.entities.CurrencyInfoEntity
-import com.example.apprenticeship.data.remote.entities.OrderBookEntity
-import com.example.apprenticeship.data.remote.entities.TickerEntity
+import com.example.apprenticeship.data.remote.entities.*
 import com.google.gson.Gson
 
 fun CurrencyInfoEntity.toCurrencyDomain() = book?.let { Currency(it) }
@@ -114,3 +110,16 @@ fun OrderBook.toOrderBookRoomEntity(book: String) = OrderBookRoomEntity(
     book,
     Gson().toJson(this)
 )
+
+fun OhlcInfoEntity.toOhlcDomain() = Ohlc(
+    bucket_start_time,
+    vwap
+)
+
+fun OhlcEntity.toOhlcListDomain(): List<Ohlc> {
+    val ohlcPoints = arrayListOf<Ohlc>()
+    for (ohlc in this.info) {
+        ohlcPoints.add(ohlc.toOhlcDomain())
+    }
+    return ohlcPoints
+}

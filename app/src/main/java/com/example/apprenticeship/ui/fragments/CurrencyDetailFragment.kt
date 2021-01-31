@@ -13,12 +13,18 @@ import com.bumptech.glide.Glide
 import com.example.apprenticeship.R
 import com.example.apprenticeship.databinding.FragmentCurrencyDetailBinding
 import com.example.apprenticeship.domain.Currency
+import com.example.apprenticeship.domain.Ohlc
 import com.example.apprenticeship.ui.Navegation
 import com.example.apprenticeship.ui.adapters.AskBidAdapter
 import com.example.apprenticeship.ui.adapters.CurrencyImageAdapter
+import com.example.apprenticeship.ui.chart.lineChartSetUp
 import com.example.apprenticeship.ui.viewmodel.CurrencyViewModel
 import com.example.apprenticeship.utils.Network
 import com.example.apprenticeship.utils.toDateString
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,9 +48,60 @@ class CurrencyDetailFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        lineChartSetUp(binding.chartCurrency)
         binding.layoutNotFound.clNotFound.visibility = View.VISIBLE
+        currencyObserver()
+        chartObserver()
 
+
+        binding.layoutNotFound.btnNewSearch.setOnClickListener {
+            viewModel.fetchTickerAndOrderBookInfo()
+        }
+    }
+
+    private fun chartObserver() {
+        viewModel.currencyChartPointsEvents.observe(viewLifecycleOwner,{
+                event ->
+            when (event) {
+                is Navegation.ShowResult<*> -> {
+                    binding.chartCurrency.visibility = View.VISIBLE
+                    val entries = ArrayList<Entry>()
+                    val chartPoints = event.result
+                    if(chartPoints is ArrayList<*>){
+                        for(i in 0 until chartPoints.size){
+                            if(chartPoints[i] is Ohlc){
+                                entries.add(Entry(i.toFloat(),(chartPoints[i] as Ohlc).currencyAverageValue.toFloat()))
+                            }
+                        }
+                        val set = LineDataSet(entries,"")
+
+                        set.fillAlpha = 110
+                        val dataSet = arrayListOf<ILineDataSet>()
+                        dataSet.add(set)
+                        set.disableDashedLine()
+                        set.setDrawCircles(false)
+                        val data = LineData(dataSet)
+                        binding.chartCurrency.data = data
+                        binding.chartCurrency.invalidate()
+                        binding.chartCurrency.refreshDrawableState()
+
+                    }
+
+                }
+                is Navegation.ShowNotFound -> {
+                    binding.chartCurrency.visibility = View.GONE
+                }
+                else -> {}
+            }
+        })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun currencyObserver(){
         viewModel.currencyDetailsEvents.observe(viewLifecycleOwner, { event ->
             when (event) {
                 is Navegation.ShowResult<*> -> {
@@ -65,15 +122,6 @@ class CurrencyDetailFragment : Fragment() {
                 }
             }
         })
-
-        binding.layoutNotFound.btnNewSearch.setOnClickListener {
-            viewModel.fetchTickerAndOrderBookInfo()
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun setCurrencyInfo(currency: Currency) {
@@ -96,8 +144,7 @@ class CurrencyDetailFragment : Fragment() {
             )
         }
 
-        binding.tvLastUpdate.text =
-            String.format("$offlineText ${String().toDateString(currency.ticker?.created_at!!)}")
+        binding.tvLastUpdate.text = String.format("$offlineText ${String().toDateString(currency.ticker?.created_at ?: "")}")
         binding.tvCurrencyHighValue.text = String.format("${currency.ticker?.high} mxn")
         binding.tvCurrencyLastValue.text = String.format("${currency.ticker?.last} mxn")
         binding.tvCurrencyLowValue.text = String.format("${currency.ticker?.low} mxn")
@@ -105,4 +152,5 @@ class CurrencyDetailFragment : Fragment() {
         askAdapter.submitList(currency.orderBook?.asks)
         bidAdapter.submitList(currency.orderBook?.bids)
     }
+
 }

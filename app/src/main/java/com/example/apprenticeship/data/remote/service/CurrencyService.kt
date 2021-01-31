@@ -1,6 +1,7 @@
 package com.example.apprenticeship.data.remote.service
 
 import com.example.apprenticeship.data.remote.entities.CurrencyEntity
+import com.example.apprenticeship.data.remote.entities.OhlcEntity
 import com.example.apprenticeship.data.remote.entities.OrderBookEntity
 import com.example.apprenticeship.data.remote.entities.TickerEntity
 import retrofit2.http.GET
@@ -12,8 +13,16 @@ interface CurrencyService {
     suspend fun getAvailableBooks(): CurrencyEntity
 
     @GET("ticker")
-    suspend fun getCurrencyTicker(@Query("book")book: String): TickerEntity
+    suspend fun getCurrencyTicker(@Query("book") book: String): TickerEntity
 
     @GET("order_book")
-    suspend fun getOrderBook(@Query("book")book: String): OrderBookEntity
+    suspend fun getOrderBook(@Query("book") book: String): OrderBookEntity
+
+    @GET("ohlc")
+    suspend fun getOhlcPoints(
+        @Query("book") book: String,
+        @Query("time_bucket") timeBucket: String,
+        @Query("start") startPoint: String,
+        @Query("end") endPoint: String
+    ): OhlcEntity
 }

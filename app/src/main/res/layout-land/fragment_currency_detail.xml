@@ -8,7 +8,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clCurrencyDetail"
-        android:visibility="invisible"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -120,6 +120,15 @@
         app:layout_constraintStart_toStartOf="@+id/tvCurrencyLowTitle"
         app:layout_constraintTop_toBottomOf="@+id/tvCurrencyLowTitle"
         tools:text="418,999" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chartCurrency"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCurrencyLowValue" />
 
     <TextView
         android:id="@+id/tvAskTitle"

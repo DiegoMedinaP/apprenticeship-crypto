@@ -119,6 +119,9 @@ dependencies {
     //loading
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 
+    //Chart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
 
     testImplementation 'junit:junit:4.13.1'
     testImplementation 'org.mockito:mockito-core:3.0.0'

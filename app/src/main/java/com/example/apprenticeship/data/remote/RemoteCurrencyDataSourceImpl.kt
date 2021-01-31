@@ -3,12 +3,7 @@ package com.example.apprenticeship.data.remote
 import com.example.apprenticeship.data.CurrencyDataSource
 import com.example.apprenticeship.data.local.LocalCurrencyDataSource
 import com.example.apprenticeship.data.remote.service.CurrencyService
-import com.example.apprenticeship.domain.Currency
-import com.example.apprenticeship.domain.OrderBook
-import com.example.apprenticeship.domain.Ticker
-import com.example.apprenticeship.domain.toCurrencyListDomain
-import com.example.apprenticeship.domain.toOrderBookDomain
-import com.example.apprenticeship.domain.toTickerDomain
+import com.example.apprenticeship.domain.*
 import javax.inject.Inject
 
 class RemoteCurrencyDataSourceImpl @Inject constructor(private val currencyService: CurrencyService, private val localDataSource: LocalCurrencyDataSource) :
@@ -32,5 +27,10 @@ class RemoteCurrencyDataSourceImpl @Inject constructor(private val currencyServi
         val orderBook = currencyService.getOrderBook(book).toOrderBookDomain()
         localDataSource.updateOrderBook(book, orderBook)
         return orderBook
+    }
+
+    override suspend fun getOhlc(book: String,timeBucket:String,start:String,end:String): List<Ohlc> {
+        val ohlcPoints = currencyService.getOhlcPoints(book,timeBucket,start,end)
+        return ohlcPoints.toOhlcListDomain()
     }
 }

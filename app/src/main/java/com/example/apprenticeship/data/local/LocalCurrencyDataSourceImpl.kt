@@ -1,12 +1,7 @@
 package com.example.apprenticeship.data.local
 
 import com.example.apprenticeship.data.CurrencyDataSource
-import com.example.apprenticeship.domain.Currency
-import com.example.apprenticeship.domain.OrderBook
-import com.example.apprenticeship.domain.Ticker
-import com.example.apprenticeship.domain.toCurrencyDomain
-import com.example.apprenticeship.domain.toOrderBookDomain
-import com.example.apprenticeship.domain.toTickerDomain
+import com.example.apprenticeship.domain.*
 import javax.inject.Inject
 
 class LocalCurrencyDataSourceImpl @Inject constructor(private val currencyDao: CurrencyDao) :
@@ -24,5 +19,15 @@ class LocalCurrencyDataSourceImpl @Inject constructor(private val currencyDao: C
 
     override suspend fun getCurrencyOrderBook(book: String): OrderBook {
         return currencyDao.getOrderBook(book).toOrderBookDomain()
+    }
+
+    override suspend fun getOhlc(
+        book: String,
+        timeBucket: String,
+        start: String,
+        end: String
+    ): List<Ohlc> {
+        //TODO change to get data from Room
+        return arrayListOf()
     }
 }
