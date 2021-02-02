@@ -24,8 +24,13 @@ fun convertStringFormatIntoUnixTime(stringToFormat: String):Long{
 }
 
 fun convertUnixTimeIntoStringFormat(time: String): String{
-    val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ROOT)
-    parser.timeZone = TimeZone.getTimeZone("GMT")
-    val date =Date(time.toLong())
-    return parser.format(date)
+    return try{
+        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ROOT)
+        parser.timeZone = TimeZone.getTimeZone("GMT")
+        val date =Date(time.toLong())
+        parser.format(date)
+    }
+    catch (e:Exception){
+        ""
+    }
 }
