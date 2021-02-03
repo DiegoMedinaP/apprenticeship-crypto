@@ -38,11 +38,6 @@ class MediatorTest {
 
     @Test
     fun `return dataSourceHandler1 to use`() {
-        `when`(dataSourceHandler2Mocked.getDataSourceToUse())
-            .thenReturn(null)
-
-        `when`(dataSourceHandler3Mocked.getDataSourceToUse())
-            .thenReturn(null)
 
         `when`(dataSourceHandler1Mocked.getDataSourceToUse())
             .thenReturn(dataSourceMocked)
