@@ -5,7 +5,7 @@ import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
-fun String.toDateString(stringToFormat: String): String {
+fun toDateString(stringToFormat: String): String {
     return try {
         val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ROOT)
         parser.timeZone = TimeZone.getTimeZone("GMT")
@@ -16,11 +16,16 @@ fun String.toDateString(stringToFormat: String): String {
     }
 }
 
-fun convertStringFormatIntoUnixTime(stringToFormat: String):Long{
-    val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ROOT)
-    parser.timeZone = TimeZone.getTimeZone("GMT")
-    val date: Date? = parser.parse(stringToFormat)
-    return date?.time ?: 0
+fun convertStringFormatIntoUnixTime(stringToFormat: String?):String{
+    return try {
+        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ROOT)
+        parser.timeZone = TimeZone.getTimeZone("GMT")
+        val date: Date? = parser.parse(stringToFormat ?: "")
+        date?.time.toString()
+    }catch (e: Exception){
+        ""
+    }
+
 }
 
 fun convertUnixTimeIntoStringFormat(time: String): String{

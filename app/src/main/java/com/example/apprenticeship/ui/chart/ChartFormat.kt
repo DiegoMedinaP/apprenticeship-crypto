@@ -1,10 +1,5 @@
 package com.example.apprenticeship.ui.chart
 
-import android.annotation.SuppressLint
-import android.os.Handler
-import android.os.Looper
-import android.view.MotionEvent
-import android.view.View
 import com.example.apprenticeship.domain.Ohlc
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
@@ -12,8 +7,8 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 
-@SuppressLint("ClickableViewAccessibility")
-fun lineChartSetUp(chart: LineChart){
+fun lineChartSetUp(chart: LineChart) {
+    
     chart.axisLeft.apply {
         setDrawGridLines(false)
         setDrawLabels(false)
@@ -34,17 +29,15 @@ fun lineChartSetUp(chart: LineChart){
     chart.setDrawBorders(false)
     chart.setDrawMarkers(false)
 
-
-
     chart.description.isEnabled = false
     chart.legend.isEnabled = false
 }
 
-fun lineChartSetValue(chart: LineChart, chartPoints: ArrayList<*>){
+fun lineChartSetValue(chart: LineChart, chartPoints: ArrayList<*>) {
     val entries = ArrayList<Entry>()
 
-    for(i in 0 until chartPoints.size){
-        if(chartPoints[i] is Ohlc){
+    for (i in 0 until chartPoints.size) {
+        if (chartPoints[i] is Ohlc) {
             entries.add(Entry(i.toFloat(), (chartPoints[i] as Ohlc).currencyAverageValue.toFloat()))
         }
     }
@@ -59,5 +52,4 @@ fun lineChartSetValue(chart: LineChart, chartPoints: ArrayList<*>){
     chart.data = data
     chart.invalidate()
     chart.refreshDrawableState()
-
 }

@@ -10,11 +10,6 @@ import com.example.apprenticeship.domain.Ohlc
 import com.example.apprenticeship.ui.Navegation
 import com.example.apprenticeship.utils.convertStringFormatIntoUnixTime
 import com.example.apprenticeship.utils.convertUnixTimeIntoStringFormat
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 
 class CurrencyViewModel @ViewModelInject constructor(private val repository: CurrencyRepository) :
@@ -32,9 +27,8 @@ class CurrencyViewModel @ViewModelInject constructor(private val repository: Cur
     private val _currency = MutableLiveData<Currency>()
 
     private val _chartPoints = MutableLiveData<List<Ohlc>>()
-
     private val _chartPointSelectedDate = MutableLiveData<String>()
-    val chartPointSelectedDate : LiveData<String> get() = _chartPointSelectedDate
+    val chartPointSelectedDate: LiveData<String> get() = _chartPointSelectedDate
 
 
     init {
@@ -71,14 +65,19 @@ class CurrencyViewModel @ViewModelInject constructor(private val repository: Cur
         _currencyChartPointsEvents.value = Navegation.ShowLoading
         viewModelScope.launch {
             try {
+                val startChartPoint =
+                    (convertStringFormatIntoUnixTime(_currency.value?.ticker?.created_at).toFloat() - 2592000000).toString()
+                val endChartPoint =
+                    convertStringFormatIntoUnixTime(_currency.value?.ticker?.created_at)
+
                 _chartPoints.value = repository.getOhlcPoints(
                     _currency.value!!.book,
                     "14400",
-                    (convertStringFormatIntoUnixTime(_currency.value!!.ticker!!.created_at!!)-2592000000).toString(),
-                    convertStringFormatIntoUnixTime(_currency.value!!.ticker!!.created_at!!).toString()
+                    startChartPoint,
+                    endChartPoint
                 )
                 _currencyChartPointsEvents.postValue(Navegation.ShowResult(_chartPoints.value))
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 _currencyChartPointsEvents.postValue(Navegation.ShowNotFound(e))
             }
         }
@@ -91,6 +90,10 @@ class CurrencyViewModel @ViewModelInject constructor(private val repository: Cur
     }
 
     fun setCurrentPoint(position: Float) {
-        _chartPointSelectedDate.value = convertUnixTimeIntoStringFormat(_chartPoints.value?.get(position.toInt() ?: 0)?.timeInUnix ?: "")
+        _chartPointSelectedDate.value = convertUnixTimeIntoStringFormat(
+            _chartPoints.value?.get(
+                position.toInt() ?: 0
+            )?.timeInUnix ?: ""
+        )
     }
 }

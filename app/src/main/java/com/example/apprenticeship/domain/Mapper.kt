@@ -17,16 +17,16 @@ fun CurrencyEntity.toCurrencyListDomain(): List<Currency> {
 }
 
 fun TickerEntity.toTickerDomain() = Ticker(
-    this.info.high,
-    this.info.last,
-    this.info.created_at,
-    this.info.book,
-    this.info.volume,
-    this.info.vwap,
-    this.info.low,
-    this.info.ask,
-    this.info.bid,
-    this.info.change_24
+    this.info.high ?: "",
+    this.info.last ?: "",
+    this.info.created_at ?: "",
+    this.info.book ?: "",
+    this.info.volume ?: "",
+    this.info.vwap ?: "",
+    this.info.low ?: "",
+    this.info.ask ?: "",
+    this.info.bid ?: "",
+    this.info.change_24 ?: ""
 )
 
 fun OrderBookEntity.toOrderBookDomain() = OrderBook(
@@ -76,16 +76,16 @@ fun Currency.toCurrencyRoomEntity() = CurrencyRoomEntity(
 fun TickerRoomEntity.toTickerDomain(): Ticker {
 
     return Ticker(
-        high,
-        last,
-        created_at,
+        high ?: "",
+        last ?: "",
+        created_at ?: "",
         book,
-        volume,
-        vwap,
-        low,
-        ask,
-        bid,
-        change_24
+        volume ?: "",
+        vwap ?: "",
+        low ?: "",
+        ask ?: "",
+        bid ?: "",
+        change_24 ?: ""
     )
 }
 

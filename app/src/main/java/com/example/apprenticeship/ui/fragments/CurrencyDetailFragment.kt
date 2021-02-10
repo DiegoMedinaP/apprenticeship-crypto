@@ -1,16 +1,11 @@
 package com.example.apprenticeship.ui.fragments
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -18,7 +13,6 @@ import com.bumptech.glide.Glide
 import com.example.apprenticeship.R
 import com.example.apprenticeship.databinding.FragmentCurrencyDetailBinding
 import com.example.apprenticeship.domain.Currency
-import com.example.apprenticeship.domain.Ohlc
 import com.example.apprenticeship.ui.Navegation
 import com.example.apprenticeship.ui.adapters.AskBidAdapter
 import com.example.apprenticeship.ui.adapters.CurrencyImageAdapter
@@ -40,6 +34,7 @@ class CurrencyDetailFragment : Fragment(), OnChartValueSelectedListener {
     private val viewModel by activityViewModels<CurrencyViewModel>()
     private val askAdapter by lazy { AskBidAdapter() }
     private val bidAdapter by lazy { AskBidAdapter() }
+    var lastValue: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,7 +45,6 @@ class CurrencyDetailFragment : Fragment(), OnChartValueSelectedListener {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -66,11 +60,10 @@ class CurrencyDetailFragment : Fragment(), OnChartValueSelectedListener {
 
         binding.chartCurrency.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
-                Handler(Looper.getMainLooper()).postDelayed( {
-                    binding.tvCurrencyLastTitle.text = String.format("Último precio: ")
-                    binding.tvCurrencyLastValue.text = lastValue
-                    binding.chartCurrency.highlightValue(null)
-                }, 20)
+                binding.tvCurrencyLastTitle.text =
+                    resources.getString(R.string.fragment_currency_detail_currency_last_value)
+                binding.tvCurrencyLastValue.text = lastValue
+                binding.chartCurrency.highlightValue(null)
             }
             false
         }
@@ -81,20 +74,19 @@ class CurrencyDetailFragment : Fragment(), OnChartValueSelectedListener {
             when (event) {
                 is Navegation.ShowResult<*> -> {
                     binding.chartCurrency.visibility = View.VISIBLE
-                    if (event.result is ArrayList<*>){
+                    if (event.result is ArrayList<*>) {
                         lineChartSetValue(binding.chartCurrency, event.result)
                     }
-
                 }
                 is Navegation.ShowNotFound -> {
                     binding.chartCurrency.visibility = View.GONE
                 }
-                else -> {
+                is Navegation.ShowLoading -> {
                 }
             }
         })
 
-        viewModel.chartPointSelectedDate.observe(viewLifecycleOwner,{
+        viewModel.chartPointSelectedDate.observe(viewLifecycleOwner, {
             binding.tvCurrencyLastTitle.text = String.format("${it.substringBefore("T")}: ")
         })
     }
@@ -147,7 +139,7 @@ class CurrencyDetailFragment : Fragment(), OnChartValueSelectedListener {
             )
         }
         binding.tvLastUpdate.text =
-            String.format("$offlineText ${String().toDateString(currency.ticker?.created_at ?: "")}")
+            String.format("$offlineText ${toDateString(currency.ticker?.created_at ?: "")}")
         binding.tvCurrencyHighValue.text = String.format("${currency.ticker?.high} mxn")
         binding.tvCurrencyLastValue.text = String.format("${currency.ticker?.last} mxn")
         lastValue = String.format("${currency.ticker?.last} mxn")
@@ -155,8 +147,6 @@ class CurrencyDetailFragment : Fragment(), OnChartValueSelectedListener {
         askAdapter.submitList(currency.orderBook?.asks)
         bidAdapter.submitList(currency.orderBook?.bids)
     }
-
-    var lastValue : String = ""
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
         binding.tvCurrencyLastValue.text = String.format("${e?.y} mxn")
